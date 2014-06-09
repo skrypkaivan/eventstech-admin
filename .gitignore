@@ -10,3 +10,26 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# front-end
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+npm-debug.log
+
+pids
+logs
+results
+
+node_modules
+public
+.idea
+.tmp
+.sass-cache
+.vagrant
+app/bower_components
+heroku
