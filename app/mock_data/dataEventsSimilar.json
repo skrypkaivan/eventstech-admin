@@ -1,0 +1,18 @@
+[
+  {
+    "_id": 4,
+    "shortName": "WED 2014",
+    "place": "Киев",
+    "startdate": 1401001259574,
+    "enddate": 1401001259574,
+    "participants": 210
+  },
+  {
+    "_id": 5,
+    "shortName": "Workshop \"Spring by example\"",
+    "place": "Киев",
+    "startdate": 1401001259574,
+    "enddate": 1401001259574,
+    "participants": 130
+  }
+]

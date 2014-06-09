@@ -1,0 +1,16 @@
+[
+  {
+    "_id": 3,
+    "slug": "turchinov",
+    "name": "Александр Турчинов",
+    "description": "Тренер, консультант и руководитель бизнес-проектов",
+    "photo": "turchinov.jpg"
+  },
+  {
+    "_id": 4,
+    "slug": "tymoshenko",
+    "name": "Юлия Тимошенко",
+    "description": "Тренер, консультант и руководитель бизнес-проектов",
+    "photo": "tymoshenko.jpg"
+  }
+]

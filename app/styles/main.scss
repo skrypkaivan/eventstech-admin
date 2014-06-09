@@ -1,0 +1,28 @@
+/*$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";*/
+$grid-gutter-width: 30px;
+$container-large-desktop: 1112px + $grid-gutter-width;
+$standardBorderRadius: 3px;
+
+@import "_bootstrap";
+@import "compass/css3";
+@import "compass/utilities/sprites";
+@import "_mixins";
+@import "_basement";
+
+$icons-spacing: 4px;
+@import "icons/*.png";
+@include all-icons-sprites;
+
+
+
+/* Site's 2-nd level styles and components */
+
+@import "_navbar";
+
+.events_list {
+
+}
+
+.speakers_list {
+
+}

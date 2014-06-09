@@ -1,0 +1,100 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="itytApp" ng-controller="PageCtrl"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app="itytApp" ng-controller="PageCtrl"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" ng-app="itytApp" ng-controller="PageCtrl"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="itytApp" ng-controller="PageCtrl"> <!--<![endif]-->
+<head>
+  <base href='/' />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title ng-bind="Page.getTitle()"></title>
+
+  <meta name="title" content="{{Page.getTitle()}}" />
+  <meta name="description" content="{{Page.getDescription()}}"/>
+  <meta name="keywords" content="{{Page.getKeywords()}}"/>
+
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <meta property="og:url" content="{{Page.getUrl()}}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{Page.getTitle()}}" />
+  <meta property="og:description" content="{{Page.getDescription()}}" />
+  <meta property="og:image" content="{{Page.getImage()}}" />
+
+  <title ng-bind="Page.getTitle()"></title>
+
+  <!--
+  ToDO:
+  <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="images/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/apple-touch-icon-152x152.png">
+  -->
+
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+<body>
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <header>
+      <nav class="navbar navbar-static-top" role="navigation">
+        <div class="container">
+          <ul class="nav navbar-left navbar-nav primary">
+            <li active-navigation-class="active"><a href="/">События</a></li>
+            <li active-navigation-class="active"><a href="/speakers">Докладчики</a></li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container" ng-view=""></div>
+
+    <script src="bower_components/angular/angular.js"></script>
+
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-bindonce/bindonce.js"></script>
+    <!--
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/utils/polyphills.js"></script>
+
+    <script src="scripts/controllers/page.js"></script>
+    <script src="scripts/controllers/events.js"></script>
+    <script src="scripts/controllers/speakers.js"></script>
+
+    <script src="scripts/services/page.js"></script>
+    <script src="scripts/services/events.js"></script>
+    <script src="scripts/services/speakers.js"></script>
+    <script src="scripts/services/constants.js"></script>
+
+    <script src="scripts/filters/eventDate.js"></script>
+    <script src="scripts/filters/eventLogo.js"></script>
+    <script src="scripts/filters/speakerPhoto.js"></script>
+
+    <script src="scripts/directives/activeNavigationClass.js"></script>
+    <!-- endbuild -->
+
+</body>
+</html>
