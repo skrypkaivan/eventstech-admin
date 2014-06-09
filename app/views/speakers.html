@@ -1,1 +1,12 @@
-<p>Speakers</p>
+<div class="panel panel-default pull-left categories-list">
+  <div class="panel-heading">Категории докладчиков</div>
+  <div class="panel-body">
+    <div class="list-group">
+      <a bindonce ng-repeat="category in categories" bo-href="'/events/tag/' + category.slug" class="list-group-item" bo-text="category.name"></a>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default pull-left items-list speakers-list"></div>
+
+<div class="clearfix"></div>

@@ -1,6 +1,6 @@
 .navbar {
 
-  height: 77px;
+  height: $navBarHeight;
 
   li a, li a:hover {
     background: transparent;
@@ -9,7 +9,7 @@
     text-align: center;
   }
 
-  &.navbar-static-top {
+  &.navbar-fixed-top {
     background: #526375;
     margin: 0;
     padding-top: 30px;

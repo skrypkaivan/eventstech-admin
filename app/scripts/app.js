@@ -7,18 +7,24 @@ angular.module('itytApp', ['ngResource', 'pasvaz.bindonce']).config(function ($r
       templateUrl: 'views/events.html',
       controller: 'EventsCtrl',
       resolve: {
-        data: function(Events) {
-          return Events.getAll();
-        }
+        categories: function(Events) {
+          return Events.getCategories();
+        }/*,
+        events: function(Events) {
+          return Events.getByCategory();
+        }*/
       }
     })
     .when('/speakers', {
       templateUrl: 'views/speakers.html',
       controller: 'SpeakersCtrl',
       resolve: {
-        data: function(Speakers) {
-          return Speakers.getAll();
-        }
+        categories: function(Speakers) {
+          return Speakers.getCategories();
+        }/*,
+        events: function(Speakers) {
+          return Speakers.getByCategory();
+        }*/
       }
     })
     .otherwise({

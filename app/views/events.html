@@ -1,1 +1,12 @@
-<p>Events</p>
+<div class="panel panel-default pull-left categories-list">
+  <div class="panel-heading">Категории мероприятий</div>
+  <div class="panel-body">
+    <div class="list-group">
+      <a bindonce ng-repeat="category in categories" bo-href="'/events/tag/' + category.slug" class="list-group-item" bo-text="category.name"></a>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default pull-left items-list events-list"></div>
+
+<div class="clearfix"></div>

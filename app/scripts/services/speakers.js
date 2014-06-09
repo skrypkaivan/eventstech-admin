@@ -2,15 +2,14 @@
 
 angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
   var dataSpeakersUrl = 'mock_data/dataSpeakers.json',
-      dataSpeakersPopularUrl = 'mock_data/dataSpeakersPopular.json',
-      dataSpeakersSimilarUrl = 'mock_data/dataSpeakersSimilar.json',
+      dataSpeakersCategories = 'mock_data/dataSpeakersCategories.json',
       speakersFactory = {};
 
   speakersFactory.getAll = function() {
     var response = {};
     return $http.get(dataSpeakersUrl)
       .success(function(data) {
-        response.speakers = data;
+        response = data;
       })
       .error(function(message) {
         response.error = message;
@@ -20,13 +19,11 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
       });
   };
 
-  speakersFactory.getSpeaker = function(name) {
+  speakersFactory.getCategories = function() {
     var response = {};
-    return $http.get(dataSpeakersUrl)
+    return $http.get(dataSpeakersCategories)
       .success(function(data) {
-        response.speaker = data.find(function(elem) {
-          return elem['slug'] === name;
-        });
+        response = data;
       })
       .error(function(message) {
         response.error = message;
@@ -36,11 +33,11 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
       });
   };
 
-  speakersFactory.getByTag = function(name) {
+  speakersFactory.getByCategory = function(name) {
     var response = {};
     return $http.get(dataSpeakersUrl)
       .success(function(data) {
-        response.speakers = data.filter(function(elem) {
+        response = data.filter(function(elem) {
           return elem.tags.find(function(tag) {
             return tag.slug === name;
           });
@@ -53,34 +50,6 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
         return response;
       });
   };
-
-  speakersFactory.getPopular = function() {
-    var response = {};
-    return $http.get(dataSpeakersPopularUrl)
-      .success(function(data) {
-        response.speakers = data;
-      })
-      .error(function(message) {
-        response.error = message;
-      })
-      .then(function() {
-        return response;
-      });
-  };
-
-  speakersFactory.getSimilar = function() {
-    var response = {};
-    return $http.get(dataSpeakersSimilarUrl)
-      .success(function(data) {
-        response.speakers = data;
-      })
-      .error(function(message) {
-        response.error = message;
-      })
-      .then(function() {
-        return response;
-      });
-  }
 
   return speakersFactory;
 

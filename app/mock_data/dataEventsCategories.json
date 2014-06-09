@@ -1,0 +1,13 @@
+[
+  {"name": "Конференция", "slug": "conference"},
+  {"name": "iOS", "slug": "ios"},
+  {"name": "Android", "slug": "android"},
+  {"name": "Java", "slug": "java"},
+  {"name": "SpringMVC", "slug": "spingmvc"},
+  {"name": "Enterpreneurship", "slug": "enterpreneurship"},
+  {"name": "Startups", "slug": "startups"},
+  {"name": "Javscript", "slug": "javascript"},
+  {"name": "Front-end", "slug": "frontend"},
+  {"name": "Microsoft", "slug": "microsoft"},
+  {"name": "Announces", "slug": "announces"}
+]

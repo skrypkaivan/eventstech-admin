@@ -1,0 +1,7 @@
+[
+  {"name": "Scrum", "slug": "scrum"},
+  {"name": "Agile", "slug": "agile"},
+  {"name": "Investor", "slug": "investor"},
+  {"name": "Business Angel", "slug": "businessangel"},
+  {"name": "TechLead", "slug": "techlead"}
+]

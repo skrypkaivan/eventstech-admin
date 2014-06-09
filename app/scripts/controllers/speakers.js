@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('itytApp').controller('SpeakersCtrl', ['$scope', 'Page', 'Constants', 'data', function ($scope, Page, Constants, data) {
+angular.module('itytApp').controller('SpeakersCtrl', ['$scope', 'Page', 'Constants', 'categories', function ($scope, Page, Constants, categories) {
   //ToDO: make propper errors handling
-  var title = [Constants.meta.SITE_NAME, data.speakers ? 'Докладчики' : 'Ошибка'];
+  var title = [Constants.meta.SITE_NAME, categories.error ? 'Ошибка' : 'Докладчики'];
   Page.setTitle(title.join(' - '));
-  $scope.speakers = data.speakers || [];
+  $scope.categories = categories;
 
 }]);
