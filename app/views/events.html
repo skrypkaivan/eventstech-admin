@@ -1,12 +1,24 @@
 <div class="panel panel-default pull-left categories-list">
-  <div class="panel-heading">Категории мероприятий</div>
+  <div class="panel-heading">Категории событий:</div>
   <div class="panel-body">
-    <div class="list-group">
-      <a bindonce ng-repeat="category in categories" bo-href="'/events/tag/' + category.slug" class="list-group-item" bo-text="category.name"></a>
-    </div>
+    <ul class="list-group">
+      <li bindonce ng-repeat="category in categories" active-navigation-class="active" segment="3" class="list-group-item">
+        <a bo-href="'/events/tag/' + category.slug" bo-text="category.name"></a>
+      </li>
+    </ul>
   </div>
 </div>
 
-<div class="panel panel-default pull-left items-list events-list"></div>
+<div class="panel panel-default items-list events-list">
+  <div class="panel-heading"><span ng-show="category.name" ng-bind="'События в категории: ' + category.name"></span></div>
+  <div class="panel-body">
+    <ul class="list-group">
+      <li bindonce class="list-group-item" ng-repeat="event in events">
+        <a bo-href="'/events/' + event._id" bo-text="event.name"></a>
+      </li>
+    </ul>
+    <div class="info message" ng-show="events.length == 0  || !category" ng-bind="message"></div>
+  </div>
+</div>
 
 <div class="clearfix"></div>

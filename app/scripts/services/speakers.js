@@ -38,9 +38,14 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
     return $http.get(dataSpeakersUrl)
       .success(function(data) {
         response = data.filter(function(elem) {
-          return elem.tags.find(function(tag) {
-            return tag.slug === name;
-          });
+          if (name == 'uncategorised') {
+            return elem.tags.length == 0;
+          }
+          else {
+            return elem.tags.find(function(tag) {
+              return tag.slug === name;
+            });
+          }
         });
       })
       .error(function(message) {

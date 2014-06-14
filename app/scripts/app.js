@@ -9,10 +9,25 @@ angular.module('itytApp', ['ngResource', 'pasvaz.bindonce']).config(function ($r
       resolve: {
         categories: function(Events) {
           return Events.getCategories();
-        }/*,
-        events: function(Events) {
-          return Events.getByCategory();
-        }*/
+        },
+        events: function() {
+          return [];
+        }
+      }
+    })
+    .when('/events/tag/:name', {
+      templateUrl: 'views/events.html',
+      controller: 'EventsCtrl',
+      resolve: {
+        categories: function(Events) {
+          return Events.getCategories();
+        },
+        events: function($route, Events) {
+          return {
+            data: Events.getByCategory($route.current.params.name),
+            category: $route.current.params.name
+          }
+        }
       }
     })
     .when('/speakers', {
@@ -21,10 +36,25 @@ angular.module('itytApp', ['ngResource', 'pasvaz.bindonce']).config(function ($r
       resolve: {
         categories: function(Speakers) {
           return Speakers.getCategories();
-        }/*,
-        events: function(Speakers) {
-          return Speakers.getByCategory();
-        }*/
+        },
+        speakers: function() {
+          return [];
+        }
+      }
+    })
+    .when('/speakers/tag/:name', {
+      templateUrl: 'views/speakers.html',
+      controller: 'SpeakersCtrl',
+      resolve: {
+        categories: function(Speakers) {
+          return Speakers.getCategories();
+        },
+        speakers: function($route, Speakers) {
+          return {
+            data: Speakers.getByCategory($route.current.params.name),
+            category: $route.current.params.name
+          }
+        }
       }
     })
     .otherwise({
