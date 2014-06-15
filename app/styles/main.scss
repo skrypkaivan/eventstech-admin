@@ -1,4 +1,4 @@
-/*$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";*/
+$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 $grid-gutter-width: 30px;
 $container-large-desktop: 1112px + $grid-gutter-width;
 $standardBorderRadius: 3px;
@@ -19,11 +19,3 @@ $icons-spacing: 4px;
 /* Site's 2-nd level styles and components */
 
 @import "_navbar";
-
-.events_list {
-
-}
-
-.speakers_list {
-
-}

@@ -33,6 +33,16 @@ a, a:hover {
   text-decoration: none;
 }
 
+.btn-circle {
+  @include border-radius(10px);
+  font-size: 12px;
+  height: 20px;
+  margin: 10px 10px 10px 0px;
+  padding: 2px 0;
+  text-align: center;
+  width: 20px;
+}
+
 .panel-body {
   padding: 0;
 }
@@ -64,7 +74,12 @@ a, a:hover {
     font-weight: bold;
     font-size: 14px;
     height: 39px;
+    padding: 10px;
     margin: 0;
+    .btn {
+      font-size: 11px;
+      margin: 0;
+    }
   }
   .panel-body {
     position: relative;
@@ -100,11 +115,17 @@ a, a:hover {
     padding: 0;
     a {
       display: block;
-      padding: 10px;
+      line-height: 10px;
+      padding: 15px 10px;
+      width: 100%;
     }
     &.active {
       background: $activeItemBgColor !important;
       border-bottom: 1px solid $activeItemBgColor !important;
+    }
+    .event-title, .speaker-title {
+      line-height: 10px;
+      padding: 15px 10px;
     }
   }
   .list-group-item:nth-child(odd) {
