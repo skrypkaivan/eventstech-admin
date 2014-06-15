@@ -5,7 +5,7 @@ angular.module('itytApp').controller('EventsCtrl', ['$scope', 'Page', 'Constants
   var title = [Constants.meta.SITE_NAME, categories.error ? 'Ошибка' : 'События'];
   Page.setTitle(title.join(' - '));
   $scope.categories = categories;
-  $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'})
+  $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'});
   if (events.category) {
     $scope.category = $scope.categories.find(function(elem) {
       return elem.slug === events.category;
