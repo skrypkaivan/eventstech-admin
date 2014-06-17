@@ -63,14 +63,17 @@
           </div>
         </nav>
       </header>
-
       <div class="content" ng-view=""></div>
     </div>
 
+    <ng-include src="'views/uiTemplates.html'"></ng-include>
+
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 
     <!-- build:js scripts/modules.js -->
     <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bindonce/bindonce.js"></script>
     <!--
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -85,11 +88,13 @@
     <script src="scripts/controllers/page.js"></script>
     <script src="scripts/controllers/events.js"></script>
     <script src="scripts/controllers/speakers.js"></script>
+    <script src="scripts/controllers/categoryEditModalInstance.js"></script>
 
     <script src="scripts/services/page.js"></script>
     <script src="scripts/services/events.js"></script>
     <script src="scripts/services/speakers.js"></script>
     <script src="scripts/services/constants.js"></script>
+    <script src="scripts/services/categoryEditModal.js"></script>
 
     <script src="scripts/filters/eventDate.js"></script>
     <script src="scripts/filters/eventLogo.js"></script>

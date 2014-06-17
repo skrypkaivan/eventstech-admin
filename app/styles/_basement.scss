@@ -58,6 +58,41 @@ a, a:hover {
   overflow: hidden;
 }
 
+.control-label {
+  color: #000;
+  font-weight: bold;
+}
+
+.modal-centered {
+  text-align: center;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  .modal-body {
+    text-align: left;
+  }
+  .modal-sm {
+    width: 500px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.modal-footer, .modal-header {
+  border: 0;
+}
+
+.modal-footer {
+  padding-top: 0;
+}
+
+.modal-body {
+  padding-bottom: 0;
+}
+
 .panel-default {
   @include border-radius(0);
   border-left: 0;
