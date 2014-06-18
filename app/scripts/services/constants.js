@@ -6,5 +6,5 @@ angular.module('itytApp').service('Constants', function Constants() {
     meta: {
       SITE_NAME: 'ITyt'
     }
-  }
+  };
 });

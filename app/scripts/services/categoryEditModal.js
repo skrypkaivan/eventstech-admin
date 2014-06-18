@@ -10,9 +10,10 @@ angular.module('itytApp').service('CategoryEditModal', ['$modal', function Categ
     resolve: {
       category: function() {
         return {
+          _id:  '',
           name: '',
           slug: ''
-        }
+        };
       }
     }
   };

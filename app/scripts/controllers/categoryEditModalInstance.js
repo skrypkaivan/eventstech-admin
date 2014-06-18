@@ -5,9 +5,10 @@ angular.module('itytApp').controller('CategoryEditModalInstanceCtrl',
 
     $scope.name = category.name;
     $scope.slug = category.slug;
+    $scope._id = category._id;
 
     $scope.ok = function () {
-      $modalInstance.close({name: $scope.name, slug: $scope.slug});
+      $modalInstance.close({name: $scope.name, slug: $scope.slug, _id: $scope._id});
     };
 
     $scope.cancel = function () {

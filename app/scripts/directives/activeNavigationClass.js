@@ -11,6 +11,11 @@ angular.module('itytApp').directive('activeNavigationClass', ['$location', funct
           segment = attrs.segment || 1,
           path = link.attr('ng-href') || link.attr('href');
 
+      if ($location.path() === path) {
+        element.addClass(clazz);
+        span && icon && span.removeClass(icon).addClass(icon + '-selected');
+      }
+
       //path = path.substring(1); //hack because path does not return including hashbang
       scope.location = $location;
       scope.$watch('location.path()', function(newPath) {
@@ -18,7 +23,7 @@ angular.module('itytApp').directive('activeNavigationClass', ['$location', funct
             hrefSegment = href.split('/')[segment],
             newPathSegment = newPath.split('/')[segment];
 
-        if (newPathSegment == 'events' && segment == 1) {
+        if (newPathSegment === 'events' && segment === 1) {
           newPathSegment = '';
         }
 

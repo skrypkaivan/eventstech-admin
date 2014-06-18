@@ -1,13 +1,13 @@
 [
-  {"name": "Конференция", "slug": "conference"},
-  {"name": "iOS", "slug": "ios"},
-  {"name": "Android", "slug": "android"},
-  {"name": "Java", "slug": "java"},
-  {"name": "SpringMVC", "slug": "spingmvc"},
-  {"name": "Enterpreneurship", "slug": "enterpreneurship"},
-  {"name": "Startups", "slug": "startups"},
-  {"name": "Javscript", "slug": "javascript"},
-  {"name": "Front-end", "slug": "frontend"},
-  {"name": "Microsoft", "slug": "microsoft"},
-  {"name": "Announces", "slug": "announces"}
+  {"_id": 1, "name": "Конференция", "slug": "conference"},
+  {"_id": 2, "name": "iOS", "slug": "ios"},
+  {"_id": 3, "name": "Android", "slug": "android"},
+  {"_id": 4, "name": "Java", "slug": "java"},
+  {"_id": 5, "name": "SpringMVC", "slug": "spingmvc"},
+  {"_id": 6, "name": "Enterpreneurship", "slug": "enterpreneurship"},
+  {"_id": 7, "name": "Startups", "slug": "startups"},
+  {"_id": 8, "name": "Javscript", "slug": "javascript"},
+  {"_id": 9, "name": "Front-end", "slug": "frontend"},
+  {"_id": 10, "name": "Microsoft", "slug": "microsoft"},
+  {"_id": 11, "name": "Announces", "slug": "announces"}
 ]

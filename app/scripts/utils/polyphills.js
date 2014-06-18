@@ -1,10 +1,12 @@
+'use strict';
+
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
     enumerable: false,
     configurable: true,
     writable: true,
     value: function(predicate) {
-      if (this == null) {
+      if (this === null) {
         throw new TypeError('Array.prototype.find called on null or undefined');
       }
       if (typeof predicate !== 'function') {
@@ -32,15 +34,16 @@ if (!Array.prototype.filter)
 {
   Array.prototype.filter = function(fun /*, thisArg */)
   {
-    "use strict";
 
-    if (this === void 0 || this === null)
+    if (this === void 0 || this === null) {
       throw new TypeError();
+    }
 
     var t = Object(this);
     var len = t.length >>> 0;
-    if (typeof fun !== "function")
+    if (typeof fun !== "function") {
       throw new TypeError();
+    }
 
     var res = [];
     var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
@@ -55,8 +58,9 @@ if (!Array.prototype.filter)
         //       properties on Object.prototype and Array.prototype.
         //       But that method's new, and collisions should be
         //       rare, so use the more-compatible alternative.
-        if (fun.call(thisArg, val, i, t))
+        if (fun.call(thisArg, val, i, t)) {
           res.push(val);
+        }
       }
     }
 

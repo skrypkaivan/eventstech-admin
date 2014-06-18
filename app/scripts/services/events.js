@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('itytApp').service('Events', ['$http', function Events($http) {
+angular.module('itytApp').service('Events', ['$http', '$httpBackend', function Events($http, $httpBackend) {
 
   var dataEventsUrl = 'mock_data/dataEvents.json',
       dataEventsCategories = 'mock_data/dataEventsCategories.json',
+      categoryMaintainanceURL = 'events/categories',
       eventsFactory = {};
 
   eventsFactory.getAll = function() {
@@ -34,17 +35,18 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
       });
   };
 
-  eventsFactory.getByCategory = function(name) {
+  //ToDo: remove front-end selection
+  eventsFactory.getByCategory = function(id) {
     var response = {};
     return $http.get(dataEventsUrl)
       .success(function(data) {
         response = data.filter(function(elem) {
-          if (name == 'uncategorised') {
-            return elem.tags.length == 0;
+          if (id === 'uncategorised') {
+            return elem.tags.length === 0;
           }
           else {
             return elem.tags.find(function(tag) {
-              return tag.slug === name;
+              return +tag._id === +id;
             });
           }
         });
@@ -55,6 +57,21 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
       .then(function() {
         return response;
       });
+  };
+
+  eventsFactory.addCategory = function(data) {
+    var response = $http.put(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  eventsFactory.editCategory = function(data) {
+    var response = $http.post(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  eventsFactory.deleteCategory = function(data) {
+    var response = $http.del(categoryMaintainanceURL, data);
+    return response;
   };
 
   return eventsFactory;

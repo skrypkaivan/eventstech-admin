@@ -1,36 +1,54 @@
 'use strict';
 
 angular.module('itytApp').controller('SpeakersCtrl',
-  ['$scope', 'CategoryEditModal', 'Page', 'Constants', 'categories', 'speakers', function ($scope, CategoryEditModal, Page, Constants, categories, speakers) {
+  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'CategoryEditModal', 'Speakers', 'Page', 'Constants',
+  function ($scope, $routeParams, CategoriesData, SpeakersData, CategoryEditModal, Speakers, Page, Constants) {
 
     //ToDO: make propper errors handling
-    var title = [Constants.meta.SITE_NAME, categories.error ? 'Ошибка' : 'Докладчики'];
+    var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'Докладчики'];
     Page.setTitle(title.join(' - '));
-    $scope.categories = categories;
+    $scope.categories = CategoriesData;
     $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'});
-    if (speakers.category) {
+    $scope.message = "";
+    $scope.speakers = [];
+
+    if ($routeParams.categoryId) {
       $scope.category = $scope.categories.find(function(elem) {
-        return elem.slug === speakers.category;
+        if ($routeParams.categoryId === 'uncategorised'){
+          return elem.slug ===  $routeParams.categoryId;
+        }
+        else {
+          return +elem._id === +$routeParams.categoryId;
+        }
       });
-
-      $scope.speakers = speakers.data;
-
-      $scope.message = "Докладчики в категории отсутствуют";
-
+      if (SpeakersData.length) {
+        $scope.speakers = SpeakersData;
+      }
+      else {
+        $scope.message = "Докладчики в категории отсутствуют";
+      }
     }
     else {
       $scope.message = "Выберите категорию докладчиков";
     }
 
-    this.addCategory = function() {
+    //ToDO: make propper errors handling
+    $scope.addCategory = function() {
       CategoryEditModal.show().then(function(data) {
-        console.log(data);
+        Speakers.addCategory(data)
+          .success(function(response) {
+            if (!response.error) {
+              $scope.categories.push(data);
+            }
+          })
+          .error(function(response) {
+
+          });
       });
     };
 
-    $scope.addCategory = this.addCategory;
-
-    this.editCategory = function(category) {
+    //ToDO: make propper errors handling
+    $scope.editCategory = function(category) {
       CategoryEditModal.show({
         resolve: {
           category: function() {
@@ -38,11 +56,31 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function(data) {
-          console.log(data);
+          Speakers.editCategory(data)
+            .success(function(response) {
+              var i, l;
+              if (!response.error) {
+                for (i = 0, l = $scope.categories.length; i < l; i++) {
+                  if ($scope.categories[i]._id === data._id) {
+                    $scope.categories[i] = data;
+                    break;
+                  }
+                }
+                if ($scope.category && $scope.category._id) {
+                  $scope.category = data;
+                }
+              }
+            })
+            .error(function(response) {
+
+            });
         });
     };
 
-    $scope.editCategory = this.editCategory;
+    //ToDO: make propper errors handling
+    $scope.deleteCategory = function(category) {
+
+    };
 
   }]
 );

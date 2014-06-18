@@ -1,33 +1,54 @@
 'use strict';
 
 angular.module('itytApp').controller('EventsCtrl',
-  ['$scope', 'CategoryEditModal', 'Page', 'Constants', 'categories', 'events', function ($scope, CategoryEditModal, Page, Constants, categories, events) {
+  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'Events', 'Page', 'Constants',
+  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, Events, Page, Constants) {
 
     //ToDO: make propper errors handling
-    var title = [Constants.meta.SITE_NAME, categories.error ? 'Ошибка' : 'События'];
+    var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'События'];
     Page.setTitle(title.join(' - '));
-    $scope.categories = categories;
+    $scope.categories = CategoriesData;
     $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'});
-    if (events.category) {
+    $scope.message = "";
+    $scope.events = [];
+
+    if ($routeParams.categoryId) {
       $scope.category = $scope.categories.find(function(elem) {
-        return elem.slug === events.category;
+        if ($routeParams.categoryId === 'uncategorised'){
+          return elem.slug ===  $routeParams.categoryId;
+        }
+        else {
+          return +elem._id === +$routeParams.categoryId;
+        }
       });
-      $scope.events = events.data;
-      $scope.message = "События в категории отсутствуют";
+      if (EventsData.length) {
+        $scope.events = EventsData;
+      }
+      else {
+        $scope.message = "События в категории отсутствуют";
+      }
     }
     else {
       $scope.message = "Выберите категорию событий";
     }
 
-    this.addCategory = function() {
+    //ToDO: make propper errors handling
+    $scope.addCategory = function() {
       CategoryEditModal.show().then(function(data) {
-        console.log(data);
+        Events.addCategory(data)
+          .success(function(response) {
+            if (!response.error) {
+              $scope.categories.push(data);
+            }
+          })
+          .error(function(response) {
+
+          });
       });
     };
 
-    $scope.addCategory = this.addCategory;
-
-    this.editCategory = function(category) {
+    //ToDO: make propper errors handling
+    $scope.editCategory = function(category) {
       CategoryEditModal.show({
         resolve: {
           category: function() {
@@ -35,11 +56,31 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function(data) {
-        console.log(data);
+        Events.editCategory(data)
+          .success(function(response) {
+            var i, l;
+            if (!response.error) {
+              for (i = 0, l = $scope.categories.length; i < l; i++) {
+                if ($scope.categories[i]._id === data._id) {
+                  $scope.categories[i] = data;
+                  break;
+                }
+              }
+              if ($scope.category && $scope.category._id) {
+                $scope.category = data;
+              }
+            }
+          })
+          .error(function(response) {
+
+          });
       });
     };
 
-    $scope.editCategory = this.editCategory;
+    //ToDO: make propper errors handling
+    $scope.deleteCategory = function(category) {
+
+    };
 
   }]
 );

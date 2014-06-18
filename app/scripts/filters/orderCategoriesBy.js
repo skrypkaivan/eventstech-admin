@@ -7,9 +7,15 @@ angular.module('itytApp').filter('orderCategoriesBy', function() {
       filtered.push(item);
     });
     filtered.sort(function (a, b) {
-      if(a.slug === 'uncategorised') return -1;
-      if(a[field] > b[field]) return 1;
-      if(a[field] < b[field]) return -1;
+      if(a.slug === 'uncategorised') {
+        return -1;
+      }
+      if(a[field] > b[field]) {
+        return 1;
+      }
+      if(a[field] < b[field]) {
+        return -1;
+      }
       return 0;
     });
 

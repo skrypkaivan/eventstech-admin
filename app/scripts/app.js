@@ -1,66 +1,61 @@
 'use strict';
 
-angular.module('itytApp', ['ngResource', 'ngRoute', 'pasvaz.bindonce', 'ui.bootstrap']).config(function ($routeProvider, $locationProvider) {
+angular.module('itytApp', ['ngResource', 'ngRoute', 'pasvaz.bindonce', 'ui.bootstrap'])
+  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-  $routeProvider
-    .when('/', {
-      templateUrl: 'views/events.html',
-      controller: 'EventsCtrl',
-      resolve: {
-        categories: function(Events) {
-          return Events.getCategories();
-        },
-        events: function() {
-          return [];
-        }
-      }
-    })
-    .when('/events/tag/:name', {
-      templateUrl: 'views/events.html',
-      controller: 'EventsCtrl',
-      resolve: {
-        categories: function(Events) {
-          return Events.getCategories();
-        },
-        events: function($route, Events) {
-          return {
-            data: Events.getByCategory($route.current.params.name),
-            category: $route.current.params.name
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/events.html',
+        controller: 'EventsCtrl',
+        resolve: {
+          CategoriesData: function(Events) {
+            return Events.getCategories();
+          },
+          EventsData: function() {
+            return [];
           }
         }
-      }
-    })
-    .when('/speakers', {
-      templateUrl: 'views/speakers.html',
-      controller: 'SpeakersCtrl',
-      resolve: {
-        categories: function(Speakers) {
-          return Speakers.getCategories();
-        },
-        speakers: function() {
-          return [];
-        }
-      }
-    })
-    .when('/speakers/tag/:name', {
-      templateUrl: 'views/speakers.html',
-      controller: 'SpeakersCtrl',
-      resolve: {
-        categories: function(Speakers) {
-          return Speakers.getCategories();
-        },
-        speakers: function($route, Speakers) {
-          return {
-            data: Speakers.getByCategory($route.current.params.name),
-            category: $route.current.params.name
+      })
+      .when('/events/tag/:categoryId', {
+        templateUrl: 'views/events.html',
+        controller: 'EventsCtrl',
+        resolve: {
+          CategoriesData: function(Events) {
+            return Events.getCategories();
+          },
+          EventsData: function($route, Events) {
+            return Events.getByCategory($route.current.params.categoryId);
           }
         }
-      }
-    })
-    .otherwise({
-      redirectTo: '/'
-    });
+      })
+      .when('/speakers', {
+        templateUrl: 'views/speakers.html',
+        controller: 'SpeakersCtrl',
+        resolve: {
+          CategoriesData: function(Speakers) {
+            return Speakers.getCategories();
+          },
+          SpeakersData: function() {
+            return [];
+          }
+        }
+      })
+      .when('/speakers/tag/:categoryId', {
+        templateUrl: 'views/speakers.html',
+        controller: 'SpeakersCtrl',
+        resolve: {
+          CategoriesData: function(Speakers) {
+            return Speakers.getCategories();
+          },
+          SpeakersData: function($route, Speakers) {
+            return Speakers.getByCategory($route.current.params.categoryId);
+          }
+        }
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
 
-  $locationProvider.html5Mode(true).hashPrefix('!');
+    $locationProvider.html5Mode(true).hashPrefix('!');
 
-});
+  }]);

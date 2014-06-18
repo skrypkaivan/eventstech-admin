@@ -3,6 +3,7 @@
 angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
   var dataSpeakersUrl = 'mock_data/dataSpeakers.json',
       dataSpeakersCategories = 'mock_data/dataSpeakersCategories.json',
+      categoryMaintainanceURL = 'speakers/categories',
       speakersFactory = {};
 
   speakersFactory.getAll = function() {
@@ -33,17 +34,18 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
       });
   };
 
-  speakersFactory.getByCategory = function(name) {
+  //ToDo: remove front-end selection
+  speakersFactory.getByCategory = function(id) {
     var response = {};
     return $http.get(dataSpeakersUrl)
       .success(function(data) {
         response = data.filter(function(elem) {
-          if (name == 'uncategorised') {
-            return elem.tags.length == 0;
+          if (id === 'uncategorised') {
+            return elem.tags.length === 0;
           }
           else {
             return elem.tags.find(function(tag) {
-              return tag.slug === name;
+              return +tag._id === +id;
             });
           }
         });
@@ -54,6 +56,21 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
       .then(function() {
         return response;
       });
+  };
+
+  speakersFactory.addCategory = function(data) {
+    var response = $http.put(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  speakersFactory.editCategory = function(data) {
+    var response = $http.post(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  speakersFactory.deleteCategory = function(data) {
+    var response = $http.del(categoryMaintainanceURL, data);
+    return response;
   };
 
   return speakersFactory;

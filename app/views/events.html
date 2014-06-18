@@ -7,9 +7,9 @@
   <div class="panel-body">
     <ul class="list-group">
       <li bindonce ng-repeat="category in categories | orderCategoriesBy:'name'" active-navigation-class="active" segment="3" class="list-group-item">
-        <button type="button" class="btn btn-warning btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-remove"></span></button>
-        <button type="button" class="btn btn-info btn-xs pull-right btn-circle" ng-click="editCategory(category)"><span class="glyphicon glyphicon-pencil"></span></button>
-        <div><a bo-href="'/events/tag/' + category.slug" bo-text="category.name"></a></div>
+        <button type="button" class="btn btn-warning btn-xs pull-right btn-circle" ng-show="category._id" ng-click="daleteCategory(category)"><span class="glyphicon glyphicon-remove"></span></button>
+        <button type="button" class="btn btn-info btn-xs pull-right btn-circle" ng-show="category._id" ng-click="editCategory(category)"><span class="glyphicon glyphicon-pencil"></span></button>
+        <div><a bo-href="'/events/tag/' + (category._id || 'uncategorised')" bo-text="category.name"></a></div>
         <div class="clearfix"></div>
       </li>
     </ul>
