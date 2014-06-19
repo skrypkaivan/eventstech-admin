@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('itytApp').controller('EventsCtrl',
-  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'Events', 'Page', 'Constants',
-  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, Events, Page, Constants) {
+  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'ConfirmationWindow', 'Events', 'Page', 'Constants',
+  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, ConfirmationWindow, Events, Page, Constants) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'События'];
@@ -11,6 +11,7 @@ angular.module('itytApp').controller('EventsCtrl',
     $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'});
     $scope.message = "";
     $scope.events = [];
+    $scope.category = null;
 
     if ($routeParams.categoryId) {
       $scope.category = $scope.categories.find(function(elem) {
@@ -81,7 +82,30 @@ angular.module('itytApp').controller('EventsCtrl',
 
     //ToDO: make propper errors handling
     $scope.deleteCategory = function(category) {
+      ConfirmationWindow.show({
+        resolve: {
+          windowTitle: function() {
+            return 'Удалить категорию ' + category.name + '?';
+          }
+        }
+      }).then(function() {
+        Events.deleteCategory(category)
+          .success(function(response) {
+            var index;
+            if (!response.error) {
+              index = $scope.categories.indexOf(category);
+              if (+$scope.category._id === +category._id) {
+                $scope.category = null;
+                $scope.events = [];
+                $scope.message = "Выберите категорию событий";
+              }
+              $scope.categories.splice(index ,1);
+            }
+          })
+          .error(function(response) {
 
+          });
+      });
     };
 
   }]

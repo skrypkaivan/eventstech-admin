@@ -81,6 +81,15 @@ a, a:hover {
   }
 }
 
+.modal-confirmation {
+  .modal-footer, .modal-header {
+    text-align: center;
+    button {
+      min-width: 100px;
+    }
+  }
+}
+
 .modal-footer, .modal-header {
   border: 0;
 }

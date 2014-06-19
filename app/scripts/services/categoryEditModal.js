@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').service('CategoryEditModal', ['$modal', function CategoryEditModal($modal) {
+angular.module('itytApp').service('CategoryEditModal', ['$modal', function($modal) {
 
   var modalDefaults = {
     templateUrl: "views/categoryEditModal.html",

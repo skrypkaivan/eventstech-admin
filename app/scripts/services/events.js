@@ -70,7 +70,7 @@ angular.module('itytApp').service('Events', ['$http', '$httpBackend', function E
   };
 
   eventsFactory.deleteCategory = function(data) {
-    var response = $http.del(categoryMaintainanceURL, data);
+    var response = $http.delete(categoryMaintainanceURL, data);
     return response;
   };
 

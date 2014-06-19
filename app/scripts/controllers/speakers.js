@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('itytApp').controller('SpeakersCtrl',
-  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'CategoryEditModal', 'Speakers', 'Page', 'Constants',
-  function ($scope, $routeParams, CategoriesData, SpeakersData, CategoryEditModal, Speakers, Page, Constants) {
+  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'CategoryEditModal', 'ConfirmationWindow', 'Speakers', 'Page', 'Constants',
+  function ($scope, $routeParams, CategoriesData, SpeakersData, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'Докладчики'];
@@ -11,6 +11,7 @@ angular.module('itytApp').controller('SpeakersCtrl',
     $scope.categories.unshift({name: 'Без категории', slug: 'uncategorised'});
     $scope.message = "";
     $scope.speakers = [];
+    $scope.category = null;
 
     if ($routeParams.categoryId) {
       $scope.category = $scope.categories.find(function(elem) {
@@ -58,30 +59,53 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function(data) {
-          Speakers.editCategory(data)
-            .success(function(response) {
-              var i, l;
-              if (!response.error) {
-                for (i = 0, l = $scope.categories.length; i < l; i++) {
-                  if ($scope.categories[i]._id === data._id) {
-                    $scope.categories[i] = data;
-                    break;
-                  }
-                }
-                if ($scope.category && $scope.category._id) {
-                  $scope.category = data;
+        Speakers.editCategory(data)
+          .success(function(response) {
+            var i, l;
+            if (!response.error) {
+              for (i = 0, l = $scope.categories.length; i < l; i++) {
+                if ($scope.categories[i]._id === data._id) {
+                  $scope.categories[i] = data;
+                  break;
                 }
               }
-            })
-            .error(function(response) {
+              if ($scope.category && $scope.category._id) {
+                $scope.category = data;
+              }
+            }
+          })
+          .error(function(response) {
 
-            });
-        });
+          });
+      });
     };
 
     //ToDO: make propper errors handling
     $scope.deleteCategory = function(category) {
+      ConfirmationWindow.show({
+        resolve: {
+          windowTitle: function() {
+            return 'Удалить категорию ' + category.name + '?';
+          }
+        }
+      }).then(function() {
+        Speakers.deleteCategory(category)
+          .success(function(response) {
+            var index;
+            if (!response.error) {
+              index = $scope.categories.indexOf(category);
+              if (+$scope.category._id === +category._id) {
+                $scope.category = null;
+                $scope.speakers = [];
+                $scope.message = "Выберите категорию докладчиков";
+              }
+              $scope.categories.splice(index ,1);
+            }
+          })
+          .error(function(response) {
 
+          });
+        });
     };
 
   }]
