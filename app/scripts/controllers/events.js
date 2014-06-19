@@ -108,5 +108,31 @@ angular.module('itytApp').controller('EventsCtrl',
       });
     };
 
+    //ToDO: make propper errors handling
+    $scope.deleteEvent = function(event) {
+      ConfirmationWindow.show({
+        resolve: {
+          windowTitle: function() {
+            return 'Удалить событие ' + event.name + '?';
+          }
+        }
+      }).then(function() {
+        Events.deleteEvent(event)
+          .success(function(response) {
+            var index;
+            if (!response.error) {
+              index = $scope.events.indexOf(event);
+              $scope.events.splice(index ,1);
+              if (!$scope.events.length) {
+                $scope.message = "События в категории отсутствуют";
+              }
+            }
+          })
+          .error(function(response) {
+
+          });
+      });
+    };
+
   }]
 );

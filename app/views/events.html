@@ -25,7 +25,7 @@
   <div class="panel-body">
     <ul class="list-group">
       <li bindonce class="list-group-item" ng-repeat="event in events | orderBy:'name':false">
-        <button type="button" class="btn btn-warning btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-remove"></span></button>
+        <button type="button" class="btn btn-warning btn-xs pull-right btn-circle" ng-click="deleteEvent(event)"><span class="glyphicon glyphicon-remove"></span></button>
         <button type="button" class="btn btn-info btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-pencil"></span></button>
         <div class="event-title" bo-text="event.name"></div>
         <div class="clearfix"></div>

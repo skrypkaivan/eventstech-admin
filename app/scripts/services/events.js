@@ -5,6 +5,7 @@ angular.module('itytApp').service('Events', ['$http', '$httpBackend', function E
   var dataEventsUrl = 'mock_data/dataEvents.json',
       dataEventsCategories = 'mock_data/dataEventsCategories.json',
       categoryMaintainanceURL = 'events/categories',
+      eventMaintainanceURL = 'events',
       eventsFactory = {};
 
   eventsFactory.getAll = function() {
@@ -71,6 +72,11 @@ angular.module('itytApp').service('Events', ['$http', '$httpBackend', function E
 
   eventsFactory.deleteCategory = function(data) {
     var response = $http.delete(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  eventsFactory.deleteEvent = function(data) {
+    var response = $http.delete(eventMaintainanceURL, data);
     return response;
   };
 

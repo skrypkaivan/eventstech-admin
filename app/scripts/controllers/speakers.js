@@ -108,5 +108,31 @@ angular.module('itytApp').controller('SpeakersCtrl',
         });
     };
 
+    //ToDO: make propper errors handling
+    $scope.deleteSpeaker = function(speaker) {
+      ConfirmationWindow.show({
+        resolve: {
+          windowTitle: function() {
+            return 'Удалить докладчика ' + speaker.name + '?';
+          }
+        }
+      }).then(function() {
+        Speakers.deleteEvent(speaker)
+          .success(function(response) {
+            var index;
+            if (!response.error) {
+              index = $scope.speakers.indexOf(speaker);
+              $scope.speakers.splice(index ,1);
+              if (!$scope.speakers.length) {
+                $scope.message = "Докладчики в категории отсутствуют";
+              }
+            }
+          })
+          .error(function(response) {
+
+          });
+      });
+    };
+
   }]
 );

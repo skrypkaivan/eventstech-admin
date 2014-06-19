@@ -41,6 +41,12 @@ var api = require('./lib/controllers/api'),
 // Server Routes
 app.all('/events/categories', api.responseOk);
 app.all('/speakers/categories', api.responseOk);
+app.post('/speakers', api.responseOk);
+app.put('/speakers', api.responseOk);
+app.delete('/speakers', api.responseOk);
+app.post('/events', api.responseOk);
+app.put('/events', api.responseOk);
+app.delete('/events', api.responseOk);
 
 // Angular Routes
 app.get('/views/*', controllers.views);

@@ -4,6 +4,7 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
   var dataSpeakersUrl = 'mock_data/dataSpeakers.json',
       dataSpeakersCategories = 'mock_data/dataSpeakersCategories.json',
       categoryMaintainanceURL = 'speakers/categories',
+      speakerMaintainanceURL = 'speakers',
       speakersFactory = {};
 
   speakersFactory.getAll = function() {
@@ -70,6 +71,11 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
 
   speakersFactory.deleteCategory = function(data) {
     var response = $http.delete(categoryMaintainanceURL, data);
+    return response;
+  };
+
+  speakersFactory.deleteEvent = function(data) {
+    var response = $http.delete(speakerMaintainanceURL, data);
     return response;
   };
 
