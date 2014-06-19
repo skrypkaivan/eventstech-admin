@@ -32,12 +32,14 @@ angular.module('itytApp').controller('SpeakersCtrl',
       $scope.message = "Выберите категорию докладчиков";
     }
 
-    //ToDO: make propper errors handling
+    //ToDO: make propper errors handling, data to paste should come from the response
     $scope.addCategory = function() {
       CategoryEditModal.show().then(function(data) {
         Speakers.addCategory(data)
           .success(function(response) {
             if (!response.error) {
+              //Todo: remove ID - whole data should come from the server
+              data._id = (new Date()).getTime();
               $scope.categories.push(data);
             }
           })
@@ -47,7 +49,7 @@ angular.module('itytApp').controller('SpeakersCtrl',
       });
     };
 
-    //ToDO: make propper errors handling
+    //ToDO: make propper errors handling, data to paste should come from the response
     $scope.editCategory = function(category) {
       CategoryEditModal.show({
         resolve: {
