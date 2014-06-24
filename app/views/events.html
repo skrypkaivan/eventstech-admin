@@ -19,14 +19,14 @@
 <div class="panel panel-default items-list events-list">
   <div class="panel-heading">
     <span ng-show="category.name" ng-bind="'События в категории: ' + category.name"></span>
-    <button ng-show="category.name" type="button" class="btn btn-success btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-plus"></span></button>
+    <button ng-show="category.name" type="button" class="btn btn-success btn-xs pull-right btn-circle" ng-click="addEvent()"><span class="glyphicon glyphicon-plus"></span></button>
     <div class="clearfix"></div>
   </div>
   <div class="panel-body">
     <ul class="list-group">
       <li bindonce class="list-group-item" ng-repeat="event in events | orderBy:'name':false">
         <button type="button" class="btn btn-warning btn-xs pull-right btn-circle" ng-click="deleteEvent(event)"><span class="glyphicon glyphicon-remove"></span></button>
-        <button type="button" class="btn btn-info btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button type="button" class="btn btn-info btn-xs pull-right btn-circle" ng-click="editEvent(event)"><span class="glyphicon glyphicon-pencil"></span></button>
         <div class="event-title" bo-text="event.name"></div>
         <div class="clearfix"></div>
       </li>

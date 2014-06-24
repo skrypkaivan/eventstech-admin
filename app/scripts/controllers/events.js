@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('itytApp').controller('EventsCtrl',
-  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'ConfirmationWindow', 'Events', 'Page', 'Constants',
-  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, ConfirmationWindow, Events, Page, Constants) {
+  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'EventEditModal', 'ConfirmationWindow', 'Events', 'Page', 'Constants',
+  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, EventEditModal, ConfirmationWindow, Events, Page, Constants) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'События'];
@@ -131,6 +131,26 @@ angular.module('itytApp').controller('EventsCtrl',
           .error(function(response) {
 
           });
+      });
+    };
+
+    //ToDO: make propper errors handling
+    $scope.addEvent = function() {
+      EventEditModal.show().then(function(data) {
+
+      });
+    };
+
+    //ToDO: make propper errors handling
+    $scope.editEvent = function(event) {
+      EventEditModal.show({
+        resolve: {
+          event: function() {
+            return event;
+          }
+        }
+      }).then(function(data) {
+
       });
     };
 

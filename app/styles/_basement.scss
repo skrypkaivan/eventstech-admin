@@ -74,19 +74,21 @@ a, a:hover {
   .modal-body {
     text-align: left;
   }
-  .modal-sm {
-    width: 500px;
+  .modal-sm, .modal-lg {
     display: inline-block;
     vertical-align: middle;
+  }
+  .modal-sm {
+    width: 500px;
+  }
+  .modal-lg {
+    width: 800px;
   }
 }
 
 .modal-confirmation {
   .modal-footer, .modal-header {
     text-align: center;
-    button {
-      min-width: 100px;
-    }
   }
 }
 
@@ -96,6 +98,9 @@ a, a:hover {
 
 .modal-footer {
   padding-top: 0;
+  button {
+    min-width: 100px;
+  }
 }
 
 .modal-body {
@@ -193,3 +198,22 @@ a, a:hover {
   border-right: 1px solid #CCC;
 }
 
+.dropdown-menu {
+  table {
+    outline: none;
+  }
+}
+
+.datetimepicker {
+  & > div {
+   padding: 0 0px 0 15px;
+  }
+  .timepicker {
+    tr:first-of-type, tr:last-of-type {
+      display: none;
+    }
+    input {
+      min-width: 40px;
+    }
+  }
+}
