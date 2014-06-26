@@ -1,6 +1,12 @@
 <form class="form-horizontal" role="form">
   <div class="modal-body">
     <div class="form-group">
+      <label for="event-name" class="control-label col-sm-3">Изображение:</label>
+      <div class="col-sm-5">
+        <image-file-upload src="$parent.event.logo" type="event"></image-file-upload>
+      </div>
+    </div>
+    <div class="form-group">
       <label for="event-name" class="control-label col-sm-3">Название:</label>
       <div class="col-sm-9">
         <input ng-model="$parent.event.name" id="event-name" class="form-control" placeholder="Название" />
@@ -25,15 +31,15 @@
       </div>
     </div>
     <div class="form-group">
-      <datetime-picker timestamp="$parent.event.startDate" label="Начало" id="event-startdate"></datetime-picker>
+      <datetime-picker timestamp="$parent.event.startdate" label="Начало" id="event-startdate"></datetime-picker>
     </div>
     <div class="form-group">
-      <datetime-picker timestamp="$parent.event.endDate" label="Конец" id="event-enddate"></datetime-picker>
+      <datetime-picker timestamp="$parent.event.enddate" label="Конец" id="event-enddate"></datetime-picker>
     </div>
     <div class="form-group">
       <label for="event-short-name" class="control-label col-sm-3">Короткое описание:</label>
-      <div class="col-sm-5">
-        <input ng-model="$parent.event.shortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" />
+      <div class="col-sm-9">
+        <textarea ng-model="$parent.event.shortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" rows="3"></textarea>
       </div>
     </div>
   </div>

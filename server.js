@@ -47,6 +47,7 @@ app.delete('/speakers', api.responseOk);
 app.post('/events', api.responseOk);
 app.put('/events', api.responseOk);
 app.delete('/events', api.responseOk);
+app.post('/upload', api.upload);
 
 // Angular Routes
 app.get('/views/*', controllers.views);

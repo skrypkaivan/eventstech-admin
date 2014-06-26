@@ -18,8 +18,8 @@ angular.module('itytApp').service('EventEditModal', ['$modal', function($modal) 
     resolve: {
       event: function() {
         return {
-          startDate: startDate,
-          endDate: endDate
+          startdate: startDate,
+          enddate: endDate
         };
       }
     }
@@ -27,9 +27,10 @@ angular.module('itytApp').service('EventEditModal', ['$modal', function($modal) 
 
 
   this.show = function (customModalDefaults) {
-    var tempModalDefaults = {};
+    var tempModalDefaults = {}, modal;
     angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
-    return $modal.open(tempModalDefaults).result;
+    modal = $modal.open(tempModalDefaults);
+    return modal.result;
   };
 
 }]);
