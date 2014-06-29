@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').service('Events', ['$http', '$httpBackend', function Events($http, $httpBackend) {
+angular.module('itytApp').service('Events', ['$http', function Events($http) {
 
   var dataEventsUrl = 'mock_data/dataEvents.json',
       dataEventsCategories = 'mock_data/dataEventsCategories.json',
@@ -83,6 +83,16 @@ angular.module('itytApp').service('Events', ['$http', '$httpBackend', function E
 
   eventsFactory.deleteEvent = function(data) {
     var response = $http.delete(eventMaintainanceURL, data);
+    return response;
+  };
+
+  eventsFactory.addEvent = function(data) {
+    var response = $http.put(eventMaintainanceURL, data);
+    return response;
+  };
+
+  eventsFactory.editEvent = function(data) {
+    var response = $http.post(eventMaintainanceURL, data);
     return response;
   };
 

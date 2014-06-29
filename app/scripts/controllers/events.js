@@ -113,7 +113,7 @@ angular.module('itytApp').controller('EventsCtrl',
       ConfirmationWindow.show({
         resolve: {
           windowTitle: function() {
-            return 'Удалить событие ' + event.name + '?';
+            return 'Удалить событие ' + event.name + ' окончательно из всех категорий?';
           }
         }
       }).then(function() {
@@ -135,9 +135,47 @@ angular.module('itytApp').controller('EventsCtrl',
     };
 
     //ToDO: make propper errors handling
-    $scope.addEvent = function() {
-      EventEditModal.show().then(function(data) {
+    $scope.deleteEventFromCategory = function(event, category) {
+      ConfirmationWindow.show({
+        resolve: {
+          windowTitle: function() {
+            return 'Удалить событие ' + event.name + ' из категории ' + category.name + '?';
+          }
+        }
+      }).then(function() {
+        event.tags.find(function(elem, index) {
+          if (elem._id === category._id) {
+            event.tags.splice(index, 1);
+            return true;
+          }
+        });
+        Events.editEvent(event)
+          .success(function(response) {
+            var index;
+            if (!response.error) {
+              index = $scope.events.indexOf(event);
+              $scope.events.splice(index ,1);
+              if (!$scope.events.length) {
+                $scope.message = "События в категории отсутствуют";
+              }
+            }
+          })
+          .error(function(response) {
 
+          });
+      });
+    };
+
+    //ToDO: make propper errors handling
+    $scope.addEvent = function() {
+      EventEditModal.show().then(function(event) {
+        Events.addEvent(event)
+          .success(function(response) {
+
+          })
+          .error(function(response) {
+
+          });
       });
     };
 
@@ -150,7 +188,13 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function(data) {
+        Events.editEvent(event)
+          .success(function(response) {
 
+          })
+          .error(function(response) {
+
+          });
       });
     };
 

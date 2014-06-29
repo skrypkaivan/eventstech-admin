@@ -74,8 +74,13 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
     return response;
   };
 
-  speakersFactory.deleteEvent = function(data) {
+  speakersFactory.deleteSpeaker = function(data) {
     var response = $http.delete(speakerMaintainanceURL, data);
+    return response;
+  };
+
+  speakersFactory.editSpeaker = function(data) {
+    var response = $http.post(speakerMaintainanceURL, data);
     return response;
   };
 
