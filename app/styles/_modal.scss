@@ -1,0 +1,43 @@
+.modal-centered {
+  text-align: center;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  .modal-body {
+    text-align: left;
+  }
+  .modal-sm, .modal-lg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .modal-sm {
+    width: 500px;
+  }
+  .modal-lg {
+    width: 800px;
+  }
+}
+
+.modal-confirmation {
+  .modal-footer, .modal-header {
+    text-align: center;
+  }
+}
+
+.modal-footer, .modal-header {
+  border: 0;
+}
+
+.modal-footer {
+  padding-top: 0;
+  button {
+    min-width: 100px;
+  }
+}
+
+.modal-body {
+  padding-bottom: 0;
+}

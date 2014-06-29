@@ -1,0 +1,13 @@
+.datetimepicker {
+  & > div {
+    padding: 0 0px 0 15px;
+  }
+  .timepicker {
+    tr:first-of-type, tr:last-of-type {
+      display: none;
+    }
+    input {
+      min-width: 40px;
+    }
+  }
+}

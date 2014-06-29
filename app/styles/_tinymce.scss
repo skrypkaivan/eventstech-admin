@@ -1,0 +1,11 @@
+.mce-container,
+.mce-container:before,
+.mce-container:after {
+  box-sizing: content-box !important;
+  label {
+    max-width: inherit;
+  }
+  .mce-tab {
+    box-sizing: content-box !important;
+  }
+}
