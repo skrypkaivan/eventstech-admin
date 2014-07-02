@@ -1,0 +1,14 @@
+<div class="tags-bar">
+  <ul>
+    <li ng-repeat="tag in data">
+      <button class="btn btn-default btn-xs" ng-click="removeCategory(tag)">
+        <span class="glyphicon glyphicon-remove"></span> {{tag.name}}
+      </button>
+    </li>
+  </ul>
+  <div class="control-group">
+    <angucomplete id="event-tags-autocomplete" placeholder="Имя категории или слаг" selectedobject="selectedTag" localdata="fullcollection" searchfields="slug,name" titlefield="name" minlength="1" inputclass="form-control" class="pull-left" />
+    <button class="btn btn-primary" ng-click="addCategory(selectedTag)">Добавить</button>
+    <div class="clear"></div>
+  </div>
+</div>

@@ -13,9 +13,6 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
     return $http.get(dataEventsUrl)
       .success(function(data) {
         response = data;
-        response.forEach(function(elem) {
-          elem.logo = elem.logo ? 'images/event_logos/' + elem.logo : '';
-        });
       })
       .error(function(message) {
         response.error = message;
@@ -53,9 +50,6 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
               return +tag._id === +id;
             });
           }
-        });
-        response.forEach(function(elem) {
-          elem.logo = elem.logo ? 'images/event_logos/' + elem.logo : '';
         });
       })
       .error(function(message) {

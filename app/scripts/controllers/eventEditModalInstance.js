@@ -1,9 +1,18 @@
 'use strict';
 
 angular.module('itytApp').controller('EventEditModalInstanceCtrl',
-  ['$scope', '$modalInstance', 'event', function ($scope, $modalInstance, event) {
+  ['$scope', '$modalInstance', 'event', 'categories', function ($scope, $modalInstance, event, categories) {
+
+    //For just in case searching and removing "Uncategorized" category
+    categories.find(function(elem, index) {
+      if (!elem._id) {
+        categories.splice(index, 1);
+        return true;
+      }
+    });
 
     $scope.event = event;
+    $scope.categories = categories;
 
     $scope.tinymceOptions = {
       menubar: "false",

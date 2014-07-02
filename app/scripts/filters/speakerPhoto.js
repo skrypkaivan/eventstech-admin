@@ -2,6 +2,6 @@
 
 angular.module('itytApp').filter('speakerPhoto', function () {
   return function (input) {
-    return 'images/speaker_photos/' + input;
+    return input ? 'images/speaker_photos/' + input : '';
   };
 });

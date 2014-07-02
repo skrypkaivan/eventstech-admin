@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').service('EventEditModal', ['$modal', function($modal) {
+angular.module('itytApp').service('EventEditModal', ['$modal', 'Events', function($modal, Events) {
 
   var startDate = new Date(),
       endDate, modalDefaults;
@@ -15,21 +15,26 @@ angular.module('itytApp').service('EventEditModal', ['$modal', function($modal) 
     controller: "EventEditModalInstanceCtrl",
     size: "lg",
     windowClass: "modal-centered",
+    categories: [],
     resolve: {
       event: function() {
         return {
           startdate: startDate,
-          enddate: endDate
+          enddate: endDate,
+          tags: []
         };
+      },
+      categories: function(Events) {
+        return Events.getCategories();
       }
     }
   };
 
 
   this.show = function (customModalDefaults) {
-    var tempModalDefaults = {}, modal;
-    angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
-    modal = $modal.open(tempModalDefaults);
+    var modalOptions = {}, modal;
+    angular.extend(modalOptions, modalDefaults, customModalDefaults);
+    modal = $modal.open(modalOptions);
     return modal.result;
   };
 

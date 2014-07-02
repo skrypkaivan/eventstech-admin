@@ -2,7 +2,7 @@
   "name": "ityt",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.18",
+    "angular": "1.2.19",
     "json3": "~3.2.4",
     "jquery": "~1.9.1",
     "bootstrap-sass-official": "~3.1.1",
@@ -13,7 +13,8 @@
     "angular-sanitize": "~1.0.7",
     "angular-bindonce": "0.3.1",
     "angular-bootstrap": "0.11.0",
-    "angular-ui-tinymce": "latest",
+    "angular-ui-tinymce": "git://github.com/angular-ui/ui-tinymce.git#c46b97622443bf5c0ba4e2e013f8721952b6124f",
+    "angucomplete": "latest",
     "uploadify": "3.2.1"
   },
   "devDependencies": {

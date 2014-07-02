@@ -185,10 +185,13 @@ angular.module('itytApp').controller('EventsCtrl',
         resolve: {
           event: function() {
             return event;
+          },
+          categories: function() {
+            return CategoriesData;
           }
         }
       }).then(function(data) {
-        Events.editEvent(event)
+        Events.editEvent(data)
           .success(function(response) {
 
           })

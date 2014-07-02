@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tinymce'])
+angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tinymce', 'angucomplete'])
   .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
     $routeProvider
