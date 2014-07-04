@@ -1,16 +1,12 @@
 'use strict';
 
-angular.module('itytApp').service('Events', ['$http', function Events($http) {
+angular.module('itytApp').service('Events', ['$http', 'Constants', function Events($http, Constants) {
 
-  var dataEventsUrl = 'mock_data/dataEvents.json',
-      dataEventsCategories = 'mock_data/dataEventsCategories.json',
-      categoryMaintainanceURL = 'events/categories',
-      eventMaintainanceURL = 'events',
-      eventsFactory = {};
+  var eventsFactory = {};
 
   eventsFactory.getAll = function() {
     var response = {};
-    return $http.get(dataEventsUrl)
+    return $http.get(Constants.urls.dataEventsUrl)
       .success(function(data) {
         response = data;
       })
@@ -24,7 +20,7 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
 
   eventsFactory.getCategories = function() {
     var response = {};
-    return $http.get(dataEventsCategories)
+    return $http.get(Constants.urls.dataEventsCategories)
       .success(function(data) {
         response = data;
       })
@@ -39,7 +35,7 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
   //ToDo: remove front-end selection
   eventsFactory.getByCategory = function(id) {
     var response = {};
-    return $http.get(dataEventsUrl)
+    return $http.get(Constants.urls.dataEventsUrl)
       .success(function(data) {
         response = data.filter(function(elem) {
           if (id === 'uncategorised') {
@@ -61,32 +57,32 @@ angular.module('itytApp').service('Events', ['$http', function Events($http) {
   };
 
   eventsFactory.addCategory = function(data) {
-    var response = $http.put(categoryMaintainanceURL, data);
+    var response = $http.put(Constants.urls.eventsCategoryMaintainanceURL, data);
     return response;
   };
 
   eventsFactory.editCategory = function(data) {
-    var response = $http.post(categoryMaintainanceURL, data);
+    var response = $http.post(Constants.urls.eventsCategoryMaintainanceURL, data);
     return response;
   };
 
   eventsFactory.deleteCategory = function(data) {
-    var response = $http.delete(categoryMaintainanceURL, data);
+    var response = $http.delete(Constants.urls.eventsCategoryMaintainanceURL, data);
     return response;
   };
 
   eventsFactory.deleteEvent = function(data) {
-    var response = $http.delete(eventMaintainanceURL, data);
+    var response = $http.delete(Constants.urls.eventMaintainanceURL, data);
     return response;
   };
 
   eventsFactory.addEvent = function(data) {
-    var response = $http.put(eventMaintainanceURL, data);
+    var response = $http.put(Constants.urls.eventMaintainanceURL, data);
     return response;
   };
 
   eventsFactory.editEvent = function(data) {
-    var response = $http.post(eventMaintainanceURL, data);
+    var response = $http.post(Constants.urls.eventMaintainanceURL, data);
     return response;
   };
 

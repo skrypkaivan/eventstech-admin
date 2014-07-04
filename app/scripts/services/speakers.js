@@ -1,15 +1,12 @@
 'use strict';
 
-angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
-  var dataSpeakersUrl = 'mock_data/dataSpeakers.json',
-      dataSpeakersCategories = 'mock_data/dataSpeakersCategories.json',
-      categoryMaintainanceURL = 'speakers/categories',
-      speakerMaintainanceURL = 'speakers',
-      speakersFactory = {};
+angular.module('itytApp').service('Speakers', ['$http', 'Constants', function Events($http, Constants) {
+
+  var speakersFactory = {};
 
   speakersFactory.getAll = function() {
     var response = {};
-    return $http.get(dataSpeakersUrl)
+    return $http.get(Constants.urls.dataSpeakersUrl)
       .success(function(data) {
         response = data;
       })
@@ -23,7 +20,7 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
 
   speakersFactory.getCategories = function() {
     var response = {};
-    return $http.get(dataSpeakersCategories)
+    return $http.get(Constants.urls.dataSpeakersCategories)
       .success(function(data) {
         response = data;
       })
@@ -38,7 +35,7 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
   //ToDo: remove front-end selection
   speakersFactory.getByCategory = function(id) {
     var response = {};
-    return $http.get(dataSpeakersUrl)
+    return $http.get(Constants.urls.dataSpeakersUrl)
       .success(function(data) {
         response = data.filter(function(elem) {
           if (id === 'uncategorised') {
@@ -60,27 +57,27 @@ angular.module('itytApp').service('Speakers', ['$http', function Events($http) {
   };
 
   speakersFactory.addCategory = function(data) {
-    var response = $http.put(categoryMaintainanceURL, data);
+    var response = $http.put(Constants.urls.speakersCategoryMaintainanceURL, data);
     return response;
   };
 
   speakersFactory.editCategory = function(data) {
-    var response = $http.post(categoryMaintainanceURL, data);
+    var response = $http.post(Constants.urls.speakersCategoryMaintainanceURL, data);
     return response;
   };
 
   speakersFactory.deleteCategory = function(data) {
-    var response = $http.delete(categoryMaintainanceURL, data);
+    var response = $http.delete(Constants.urls.speakersCategoryMaintainanceURL, data);
     return response;
   };
 
   speakersFactory.deleteSpeaker = function(data) {
-    var response = $http.delete(speakerMaintainanceURL, data);
+    var response = $http.delete(Constants.urls.speakerMaintainanceURL, data);
     return response;
   };
 
   speakersFactory.editSpeaker = function(data) {
-    var response = $http.post(speakerMaintainanceURL, data);
+    var response = $http.post(Constants.urls.speakerMaintainanceURL, data);
     return response;
   };
 

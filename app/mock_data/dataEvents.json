@@ -13,7 +13,11 @@
   "comments": 12,
   "participants": 30,
   "tags": [],
-  "speakers": [1, 3, 4]
+  "speakers": [
+    { "_id": 1, "name": "Мустафа Найем", "photo": "nayem.jpg" },
+    { "_id": 3, "name": "Александр Турчинов", "photo": "turchinov.jpg" },
+    { "_id": 4, "name": "Юлия Тимошенко", "photo": "tymoshenko.jpg" }
+  ]
 },
 {
   "_id": 2,
@@ -34,7 +38,12 @@
     {"_id": 5, "name": "SpringMVC", "slug": "spingmvc"},
     {"_id": 1, "name": "Конференция", "slug": "conference"}
   ],
-  "speakers": [1,2,4,5]
+  "speakers": [
+    { "_id": 1, "name": "Мустафа Найем", "photo": "nayem.jpg" },
+    { "_id": 2, "name": "Петр Порошенко", "photo": "poroshenko.jpg" },
+    { "_id": 4, "name": "Юлия Тимошенко", "photo": "tymoshenko.jpg" },
+    { "_id": 5, "name": "Арсений Яценюк", "photo": "yatsenyuk.jpg" }
+  ]
 },
 {
   "_id": 3,
@@ -55,7 +64,11 @@
     {"_id": 7, "name": "Startups", "slug": "startups"},
     {"_id": 1, "name": "Конференция", "slug": "conference"}
   ],
-  "speakers": [1,2,4]
+  "speakers": [
+    { "_id": 1, "name": "Мустафа Найем", "photo": "nayem.jpg" },
+    { "_id": 2, "name": "Петр Порошенко", "photo": "poroshenko.jpg" },
+    { "_id": 4, "name": "Юлия Тимошенко", "photo": "tymoshenko.jpg" }
+  ]
 },
 {
   "_id": 4,
@@ -76,7 +89,11 @@
     {"_id": 9, "name": "Front-end", "slug": "frontend"},
     {"_id": 1, "name": "Конференция", "slug": "conference"}
   ],
-  "speakers": [2,3,5]
+  "speakers": [
+    { "_id": 2, "name": "Петр Порошенко", "photo": "poroshenko.jpg" },
+    { "_id": 3, "name": "Александр Турчинов", "photo": "turchinov.jpg" },
+    { "_id": 5, "name": "Арсений Яценюк", "photo": "yatsenyuk.jpg" }
+  ]
 },
 {
   "_id": 5,
@@ -97,6 +114,9 @@
     {"_id": 11, "name": "Announces", "slug": "announces"},
     {"_id": 1, "name": "Конференция", "slug": "conference"}
   ],
-  "speakers": [3,5]
+  "speakers": [
+    { "_id": 3, "name": "Александр Турчинов", "photo": "turchinov.jpg" },
+    { "_id": 5, "name": "Арсений Яценюк", "photo": "yatsenyuk.jpg" }
+  ]
 }
 ]

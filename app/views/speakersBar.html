@@ -1,0 +1,15 @@
+<div class="speakers-bar">
+  <ul>
+    <li ng-repeat="speaker in data">
+      <div><img ng-src="{{speaker.photo | speakerPhoto}}" class="speaker_photo" /></div>
+      <button class="btn btn-default btn-xs" ng-click="removeSpeaker(speaker)">
+        <span class="glyphicon glyphicon-remove"></span> {{speaker.name}}
+      </button>
+    </li>
+  </ul>
+  <div class="control-group">
+    <angucomplete placeholder="Имя докладчика" selectedobject="selectedSpeaker" localdata="fullCollection" searchfields="name" titlefield="name" minlength="3" inputclass="form-control" class="pull-left" />
+    <button class="btn btn-primary" ng-click="addSpeaker(selectedSpeaker)">Добавить</button>
+    <div class="clear"></div>
+  </div>
+</div>

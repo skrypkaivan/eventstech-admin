@@ -13,7 +13,7 @@ angular.module('itytApp').directive('tagsBar', function () {
 
       $scope.removeCategory = function(tag) {
         $scope.data.find(function(elem, index) {
-          if (elem._id === tag._id) {
+          if (+elem._id === +tag._id) {
             $scope.data.splice(index, 1);
             return true;
           }
@@ -41,7 +41,7 @@ angular.module('itytApp').directive('tagsBar', function () {
         });
 
         !isPresent && $scope.data.push(categoryToAdd);
-        $element.find('#event-tags-autocomplete input').val('');
+        $element.find('angucomplete input').val('');
 
       };
 
