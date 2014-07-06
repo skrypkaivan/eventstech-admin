@@ -35,6 +35,10 @@ angular.module('itytApp').controller('EventEditModalInstanceCtrl',
       ]
     };
 
+    $scope.setForm = function(form) {
+      $scope.form = form;
+    };
+
     $scope.imageAdded = function(newSrc){
       $scope.event.logo = newSrc;
     };
@@ -48,7 +52,9 @@ angular.module('itytApp').controller('EventEditModalInstanceCtrl',
     };
 
     $scope.ok = function () {
-      $modalInstance.close($scope.event);
+      if($scope.form.$valid) {
+        $modalInstance.close($scope.event);
+      }
     };
 
     $scope.cancel = function () {

@@ -1,4 +1,5 @@
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" name="form" novalidate role="form">
+  <div ng-init="setForm(form)" />
   <div class="modal-body">
     <div class="form-group">
       <label class="control-label col-sm-3">Изображение:</label>
@@ -9,25 +10,30 @@
     <div class="form-group">
       <label for="event-name" class="control-label col-sm-3">Название:</label>
       <div class="col-sm-9">
-        <input ng-model="$parent.event.name" id="event-name" class="form-control" placeholder="Название" />
+        <input ng-model="$parent.event.name" name="eventName" id="event-name" class="form-control" placeholder="Название" required />
+        <span class="error" ng-show="form.eventName.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
       <label for="event-short-name" class="control-label col-sm-3">Короткое название:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.shortName" id="event-short-name" class="form-control" placeholder="Сокр. название (макс. 20 символов)" />
+        <input ng-model="$parent.event.shortName" name="eventShortName" id="event-short-name" class="form-control" placeholder="Сокр. название (макс. 20 символов)" ng-maxlength="25" required />
+        <span class="error" ng-show="form.eventShortName.$error.required">Обязательное поле</span>
+        <span class="error" ng-show="form.eventShortName.$error.maxlength">Превышена допустимая длинна поля</span>
       </div>
     </div>
     <div class="form-group">
       <label for="event-city" class="control-label col-sm-3">Город:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.city" id="event-city" class="form-control" placeholder="Город" />
+        <input ng-model="$parent.event.city" name="eventCity" id="event-city" class="form-control" placeholder="Город" required />
+        <span class="error" ng-show="form.eventCity.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
       <label for="event-place" class="control-label col-sm-3">Место:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.place" id="event-place" class="form-control" placeholder="Место" />
+        <input ng-model="$parent.event.place" name="eventPlace" id="event-place" class="form-control" placeholder="Место" required />
+        <span class="error" ng-show="form.eventPlace.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
@@ -41,7 +47,9 @@
     <div class="form-group">
       <label for="event-short-description" class="control-label col-sm-3">Короткое описание:</label>
       <div class="col-sm-9">
-        <textarea ng-model="$parent.event.shortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" rows="3"></textarea>
+        <textarea ng-model="$parent.event.shortDescription" name="eventShortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" ng-maxlength="250" required rows="3"></textarea>
+        <span class="error" ng-show="form.eventShortDescription.$error.required">Обязательное поле</span>
+        <span class="error" ng-show="form.eventShortDescription.$error.maxlength">Превышена допустимая длинна поля</span>
       </div>
     </div>
     <div class="form-group">
@@ -65,6 +73,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-default" ng-click="cancel()">Отмена</button>
-    <button class="btn btn-primary" ng-click="ok()">Ок</button>
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="form.$invalid">Ок</button>
   </div>
 </form>

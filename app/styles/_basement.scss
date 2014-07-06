@@ -33,6 +33,27 @@ a, a:hover {
   text-decoration: none;
 }
 
+form {
+  .ng-invalid {
+    border: 1px solid red !important;
+    outline: none;
+  }
+  table.ng-invalid, ng-form.ng-invalid {
+    border: inherit !important;
+    outline: none;
+    input {
+      border: 1px solid red !important;
+      outline: none;
+    }
+  }
+  .error {
+    clear: both;
+    color: red;
+    display: block;
+    margin: 10px 0 0;
+  }
+}
+
 .btn-circle {
   @include border-radius(10px);
   font-size: 12px;
