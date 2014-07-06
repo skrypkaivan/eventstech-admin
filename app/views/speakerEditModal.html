@@ -1,0 +1,44 @@
+<form class="form-horizontal" role="form">
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="control-label col-sm-3">Фото:</label>
+      <div class="col-sm-5">
+        <image-file-upload src="$parent.speaker.photo | speakerPhoto" type="speaker" callback="imageAdded"></image-file-upload>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-name" class="control-label col-sm-3">Имя:</label>
+      <div class="col-sm-9">
+        <input ng-model="$parent.speaker.name" id="speaker-name" class="form-control" placeholder="Имя" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-slug" class="control-label col-sm-3">Slug:</label>
+      <div class="col-sm-9">
+        <input ng-model="$parent.speaker.slug" id="speaker-slug" class="form-control" placeholder="Слаг (англ. символы и дефис)" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-short-description" class="control-label col-sm-3">Короткое описание:</label>
+      <div class="col-sm-9">
+        <textarea ng-model="$parent.event.shortDescription" id="speaker-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-long-description" class="control-label col-sm-3">Описание:</label>
+      <div class="col-sm-9">
+        <textarea ui-tinymce="tinymceOptions" ng-model="$parent.speaker.longDescription" id="speaker-long-description" class="form-control" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-tags" class="control-label col-sm-3">Категории:</label>
+      <div class="col-sm-9">
+        <tags-bar id="speaker-tags" data="$parent.speaker.tags" fullcollection="$parent.categories"></tags-bar>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">Отмена</button>
+    <button class="btn btn-primary" ng-click="ok()">Ок</button>
+  </div>
+</form>

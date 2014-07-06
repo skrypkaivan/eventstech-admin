@@ -76,6 +76,11 @@ angular.module('itytApp').service('Speakers', ['$http', 'Constants', function Ev
     return response;
   };
 
+  speakersFactory.addSpeaker = function(data) {
+    var response = $http.put(Constants.urls.speakerMaintainanceURL, data);
+    return response;
+  };
+
   speakersFactory.editSpeaker = function(data) {
     var response = $http.post(Constants.urls.speakerMaintainanceURL, data);
     return response;

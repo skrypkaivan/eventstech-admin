@@ -19,7 +19,7 @@
 <div class="panel panel-default items-list speakers-list">
   <div class="panel-heading">
     <span ng-show="category.name" ng-bind="'Докладчики в категории: ' + category.name"></span>
-    <button ng-show="category.name" type="button" class="btn btn-success btn-xs pull-right btn-circle"><span class="glyphicon glyphicon-plus"></span></button>
+    <button ng-show="category.name" type="button" class="btn btn-success btn-xs pull-right btn-circle" ng-click="addSpeaker()"><span class="glyphicon glyphicon-plus"></span></button>
     <div class="clearfix"></div>
   </div>
   <div class="panel-body">
@@ -27,7 +27,7 @@
       <li bindonce ng-repeat="speaker in speakers | orderBy:'name':false" class="list-group-item">
         <button type="button" class="btn btn-danger btn-xs pull-right btn-circle" ng-click="deleteSpeaker(speaker)" title="Удалить докладчика полностью"><span class="glyphicon glyphicon-remove"></span></button>
         <button type="button" class="btn btn-warning btn-xs pull-right btn-circle" ng-click="deleteSpeakerFromCategory(speaker, category)" ng-show="category._id" title="Убрать докладчика из категории"><span class="glyphicon glyphicon-minus"></span></button>
-        <button type="button" class="btn btn-info btn-xs pull-right btn-circle" title="Редактировать докладчика"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button type="button" class="btn btn-info btn-xs pull-right btn-circle" ng-click="editSpeaker(speaker)" title="Редактировать докладчика"><span class="glyphicon glyphicon-pencil"></span></button>
         <div bo-text="speaker.name" class="speaker-title"></div>
         <div class="clearfix"></div>
       </li>

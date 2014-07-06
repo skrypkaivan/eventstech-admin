@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('itytApp').controller('SpeakersCtrl',
-  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'CategoryEditModal', 'ConfirmationWindow', 'Speakers', 'Page', 'Constants',
-  function ($scope, $routeParams, CategoriesData, SpeakersData, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants) {
+  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'SpeakerEditModal', 'CategoryEditModal', 'ConfirmationWindow', 'Speakers', 'Page', 'Constants',
+  function ($scope, $routeParams, CategoriesData, SpeakersData, SpeakerEditModal, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'Докладчики'];
@@ -175,5 +175,81 @@ angular.module('itytApp').controller('SpeakersCtrl',
       });
     };
 
+    //ToDO: make propper errors handling
+    $scope.addSpeaker = function() {
+      SpeakerEditModal.show().then(function(speaker) {
+        Speakers.addSpeaker(speaker)
+          .success(function(response) {
+
+            //TODO: operate with a real response - not the input data, pay also attention to image's path handling
+            var isPersistenInCategory = false, data = speaker;
+            if (response.error) {
+              return;
+            }
+
+            //Todo: remove ID - whole data should come from the server
+            data._id = (new Date()).getTime();
+
+            isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
+              return +$scope.category._id === +elem._id;
+            });
+            // If added event has preserved its category (as well as still holds no tags when has been uncategorized initially) - adding it
+            if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
+              $scope.speakers.push(data);
+            }
+
+          })
+          .error(function(response) {
+
+          });
+      });
+    };
+
+    //ToDO: make propper errors handling
+    $scope.editSpeaker = function(speaker) {
+      SpeakerEditModal.show({
+        resolve: {
+          speaker: function() {
+            return speaker;
+          },
+          categories: function() {
+            return CategoriesData;
+          }
+        }
+      }).then(function(data) {
+        Speakers.editSpeaker(data)
+          .success(function(response) {
+            if (response.error) {
+              return;
+            }
+            //TODO: operate with a real response - not the input data, pay also attention to image's path handling
+            $scope.speakers.find(function(elem, index) {
+              var isPersistenInCategory = false;
+              if (+elem._id === +data._id) {
+                isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
+                  return +$scope.category._id === +elem._id;
+                });
+                // If updated event has preserved its category (as well as still holds no tags when has been uncategorized initially) -
+                // persist it, otherwise deleting it from the current category's events list
+                if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
+                  $scope.speakers[index] = data;
+                }
+                else {
+                  $scope.speakers.splice(index, 1);
+                  if (!$scope.speakers.length) {
+                    $scope.message = "В результате редактирования докладчики в данной категории отсутствуют";
+                  }
+                }
+                return;
+              }
+            });
+          })
+          .error(function(response) {
+
+          });
+      });
+    };
+
   }]
+
 );
