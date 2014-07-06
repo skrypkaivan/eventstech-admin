@@ -7,15 +7,18 @@ angular.module('itytApp').directive('imageFileUpload', [function () {
     replace: true,
     scope: {
       src: '=',
-      type: '@'
+      type: '@',
+      callback: '&'
     },
     controller: function($scope, $element) {
 
-      var fileUploaderId = 'fileUploader' + (new Date()).getTime(),
+      var timestamp = (new Date()).getTime(),
           uploader = $element.find('.uploader'),
-          fileInput = $('<input type="file" id="' + fileUploaderId + '" name="file" />'),
+          fileInput = $element.find('.file-control'),
           canvas = $element.find('canvas').get(0),
           img, ctx = canvas.getContext('2d');
+
+      fileInput.attr("id", "fileUploaderId" + timestamp);
 
       function onImageUploaded(src) {
         img = new Image();
@@ -25,11 +28,10 @@ angular.module('itytApp').directive('imageFileUpload', [function () {
           $element.css({width: img.width + 'px', height: img.height + 'px'});
           uploader.find('.uploadify-button').css('lineHeight', img.height + 'px');
           ctx.drawImage(img,0,0);
+          $scope.callback()(src);
         };
         img.src = src;
       }
-
-      fileInput.prependTo(uploader);
 
       fileInput.uploadify({
         buttonText: 'Загрузить',
@@ -57,8 +59,6 @@ angular.module('itytApp').directive('imageFileUpload', [function () {
           }
         }
       });
-
-      uploader.css('padding', 0);
 
     }
   };

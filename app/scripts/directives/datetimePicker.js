@@ -7,8 +7,7 @@ angular.module('itytApp').directive('datetimePicker', [function() {
     replace: true,
     scope: {
       timestamp: '=',
-      id: '@',
-      label: '@'
+      callback: '&'
     },
     controller: function($scope) {
       $scope.date = new Date($scope.timestamp);
@@ -18,9 +17,11 @@ angular.module('itytApp').directive('datetimePicker', [function() {
         $event.stopPropagation();
         $scope.opened = true;
       };
-    },
-    link: function($scope, element, attrs) {
-      element.attr('id', '');
+
+      $scope.onChanged = function(date) {
+        $scope.timestamp = (new Date(date)).getTime();
+        $scope.callback()($scope.timestamp);
+      };
     }
   };
 }]);

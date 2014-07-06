@@ -38,11 +38,12 @@ angular.module('itytApp').controller('SpeakersCtrl',
       CategoryEditModal.show().then(function(data) {
         Speakers.addCategory(data)
           .success(function(response) {
-            if (!response.error) {
-              //Todo: remove ID - whole data should come from the server
-              data._id = (new Date()).getTime();
-              $scope.categories.push(data);
+            if (response.error) {
+              return;
             }
+            //Todo: remove ID - whole data should come from the server
+            data._id = (new Date()).getTime();
+            $scope.categories.push(data);
           })
           .error(function(response) {
 
@@ -62,16 +63,17 @@ angular.module('itytApp').controller('SpeakersCtrl',
         Speakers.editCategory(data)
           .success(function(response) {
             var i, l;
-            if (!response.error) {
-              for (i = 0, l = $scope.categories.length; i < l; i++) {
-                if ($scope.categories[i]._id === data._id) {
-                  $scope.categories[i] = data;
-                  break;
-                }
+            if (response.error) {
+              return;
+            }
+            for (i = 0, l = $scope.categories.length; i < l; i++) {
+              if ($scope.categories[i]._id === data._id) {
+                $scope.categories[i] = data;
+                break;
               }
-              if ($scope.category && $scope.category._id) {
-                $scope.category = data;
-              }
+            }
+            if ($scope.category && $scope.category._id) {
+              $scope.category = data;
             }
           })
           .error(function(response) {
@@ -92,15 +94,16 @@ angular.module('itytApp').controller('SpeakersCtrl',
         Speakers.deleteCategory(category)
           .success(function(response) {
             var index;
-            if (!response.error) {
-              index = $scope.categories.indexOf(category);
-              if (+$scope.category._id === +category._id) {
-                $scope.category = null;
-                $scope.speakers = [];
-                $scope.message = "Выберите категорию докладчиков";
-              }
-              $scope.categories.splice(index ,1);
+            if (response.error) {
+              return;
             }
+            index = $scope.categories.indexOf(category);
+            if (+$scope.category._id === +category._id) {
+              $scope.category = null;
+              $scope.speakers = [];
+              $scope.message = "Выберите категорию докладчиков";
+            }
+            $scope.categories.splice(index ,1);
           })
           .error(function(response) {
 
@@ -120,12 +123,13 @@ angular.module('itytApp').controller('SpeakersCtrl',
         Speakers.deleteSpeaker(speaker)
           .success(function(response) {
             var index;
-            if (!response.error) {
-              index = $scope.speakers.indexOf(speaker);
-              $scope.speakers.splice(index ,1);
-              if (!$scope.speakers.length) {
-                $scope.message = "Докладчики в категории отсутствуют";
-              }
+            if (response.error) {
+              return;
+            }
+            index = $scope.speakers.indexOf(speaker);
+            $scope.speakers.splice(index ,1);
+            if (!$scope.speakers.length) {
+              $scope.message = "Докладчики в категории отсутствуют";
             }
           })
           .error(function(response) {
@@ -143,22 +147,27 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function() {
-        speaker.tags.find(function(elem, index) {
-          if (elem._id === category._id) {
-            speaker.tags.splice(index, 1);
-            return true;
-          }
-        });
         Speakers.editSpeaker(speaker)
           .success(function(response) {
-            var index;
-            if (!response.error) {
-              index = $scope.speakers.indexOf(speaker);
-              $scope.speakers.splice(index ,1);
-              if (!$scope.speakers.length) {
-                $scope.message = "Докладчики в категории отсутствуют";
-              }
+
+            if (response.error) {
+              return;
             }
+
+            //Modifying spearks tags
+            speaker.tags.find(function(elem, index) {
+              if (+elem._id === +category._id) {
+                speaker.tags.splice(index, 1);
+                return true;
+              }
+            });
+
+            //Removing speaker from category
+            $scope.speakers.splice($scope.speakers.indexOf(speaker) ,1);
+            if (!$scope.speakers.length) {
+              $scope.message = "Докладчики в категории отсутствуют";
+            }
+
           })
           .error(function(response) {
 

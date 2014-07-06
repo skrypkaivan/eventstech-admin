@@ -3,7 +3,7 @@
     <div class="form-group">
       <label for="event-name" class="control-label col-sm-3">Изображение:</label>
       <div class="col-sm-5">
-        <image-file-upload src="$parent.event.logo | eventLogo" type="event"></image-file-upload>
+        <image-file-upload src="$parent.event.logo | eventLogo" type="event" callback="imageAdded"></image-file-upload>
       </div>
     </div>
     <div class="form-group">
@@ -31,10 +31,12 @@
       </div>
     </div>
     <div class="form-group">
-      <datetime-picker timestamp="$parent.event.startdate" label="Начало" id="event-startdate"></datetime-picker>
+      <label class="control-label col-sm-3">Начало:</label>
+      <datetime-picker timestamp="$parent.event.startdate" id="event-startdate" callback="setStartDate"></datetime-picker>
     </div>
     <div class="form-group">
-      <datetime-picker timestamp="$parent.event.enddate" label="Конец" id="event-enddate"></datetime-picker>
+      <label class="control-label col-sm-3">Конец:</label>
+      <datetime-picker timestamp="$parent.event.enddate" id="event-enddate" callback="setEndDate"></datetime-picker>
     </div>
     <div class="form-group">
       <label for="event-short-description" class="control-label col-sm-3">Короткое описание:</label>

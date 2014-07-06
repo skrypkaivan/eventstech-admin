@@ -1,14 +1,13 @@
 <div class="datetimepicker">
-  <label for="{{id}}" class="control-label col-sm-3">{{label}}:</label>
   <div class="col-sm-3">
     <p class="input-group">
-      <input type='text' class='form-control' id="{{id}}" ng-model='date' is-open="opened" datepicker-popup='dd-MMMM-yyyy' starting-day="1" show-weeks="false" show-button-bar="false" />
+      <input type='text' class='form-control' ng-change="onChanged(date)" ng-model='date' is-open="opened" datepicker-popup='dd-MMMM-yyyy' starting-day="1" show-weeks="false" show-button-bar="false" />
       <span class="input-group-btn">
         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
       </span>
     </p>
   </div>
   <div class="col-sm-2">
-    <timepicker ng-model="date" ng-change="changed()" hour-step="1" minute-step="30" show-meridian="false" class="timepicker"></timepicker>
+    <timepicker ng-model="date" ng-change="onChanged(date)" hour-step="1" minute-step="30" show-meridian="false" class="timepicker"></timepicker>
   </div>
 </div>
