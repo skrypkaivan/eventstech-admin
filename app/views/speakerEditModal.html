@@ -15,13 +15,6 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="speaker-slug" class="control-label col-sm-3">Slug:</label>
-      <div class="col-sm-9">
-        <input ng-model="speaker.slug" name="speakerSlug" id="speaker-slug" class="form-control" placeholder="Слаг (англ. символы и дефис)" hide-validation-on-new-untill-typed required />
-        <span class="error" ng-show="form.speakerSlug.$error.required">Обязательное поле</span>
-      </div>
-    </div>
-    <div class="form-group">
       <label for="speaker-short-description" class="control-label col-sm-3">Короткое описание:</label>
       <div class="col-sm-9">
         <textarea ng-model="event.shortDescription" name="speakerShortDescription" id="speaker-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" ng-maxlength="250" hide-validation-on-new-untill-typed required rows="3"></textarea>
