@@ -4,20 +4,20 @@
     <div class="form-group">
       <label class="control-label col-sm-3">Изображение:</label>
       <div class="col-sm-5">
-        <image-file-upload src="$parent.event.logo | eventLogo" type="event" callback="imageAdded"></image-file-upload>
+        <image-file-upload src="event.logo | eventLogo" type="event" callback="imageAdded"></image-file-upload>
       </div>
     </div>
     <div class="form-group">
       <label for="event-name" class="control-label col-sm-3">Название:</label>
       <div class="col-sm-9">
-        <input ng-model="$parent.event.name" name="eventName" id="event-name" class="form-control" placeholder="Название" required />
+        <input ng-model="event.name" name="eventName" id="event-name" class="form-control" placeholder="Название" required hide-validation-on-new-untill-typed />
         <span class="error" ng-show="form.eventName.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
       <label for="event-short-name" class="control-label col-sm-3">Короткое название:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.shortName" name="eventShortName" id="event-short-name" class="form-control" placeholder="Сокр. название (макс. 20 символов)" ng-maxlength="25" required />
+        <input ng-model="event.shortName" name="eventShortName" id="event-short-name" class="form-control" placeholder="Сокр. название (макс. 20 символов)" ng-maxlength="25" hide-validation-on-new-untill-typed required />
         <span class="error" ng-show="form.eventShortName.$error.required">Обязательное поле</span>
         <span class="error" ng-show="form.eventShortName.$error.maxlength">Превышена допустимая длинна поля</span>
       </div>
@@ -25,29 +25,29 @@
     <div class="form-group">
       <label for="event-city" class="control-label col-sm-3">Город:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.city" name="eventCity" id="event-city" class="form-control" placeholder="Город" required />
+        <input ng-model="event.city" name="eventCity" id="event-city" class="form-control" placeholder="Город" hide-validation-on-new-untill-typed required />
         <span class="error" ng-show="form.eventCity.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
       <label for="event-place" class="control-label col-sm-3">Место:</label>
       <div class="col-sm-5">
-        <input ng-model="$parent.event.place" name="eventPlace" id="event-place" class="form-control" placeholder="Место" required />
+        <input ng-model="event.place" name="eventPlace" id="event-place" class="form-control" placeholder="Место" hide-validation-on-new-untill-typed required />
         <span class="error" ng-show="form.eventPlace.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3">Начало:</label>
-      <datetime-picker timestamp="$parent.event.startdate" id="event-startdate" callback="setStartDate"></datetime-picker>
+      <datetime-picker timestamp="event.startdate" id="event-startdate" callback="setStartDate"></datetime-picker>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3">Конец:</label>
-      <datetime-picker timestamp="$parent.event.enddate" id="event-enddate" callback="setEndDate"></datetime-picker>
+      <datetime-picker timestamp="event.enddate" id="event-enddate" callback="setEndDate"></datetime-picker>
     </div>
     <div class="form-group">
       <label for="event-short-description" class="control-label col-sm-3">Короткое описание:</label>
       <div class="col-sm-9">
-        <textarea ng-model="$parent.event.shortDescription" name="eventShortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" ng-maxlength="250" required rows="3"></textarea>
+        <textarea ng-model="event.shortDescription" name="eventShortDescription" id="event-short-description" class="form-control" placeholder="Сокр. описание (макс. 250 символов)" ng-maxlength="250" required hide-validation-on-new-untill-typed rows="3"></textarea>
         <span class="error" ng-show="form.eventShortDescription.$error.required">Обязательное поле</span>
         <span class="error" ng-show="form.eventShortDescription.$error.maxlength">Превышена допустимая длинна поля</span>
       </div>
@@ -55,19 +55,19 @@
     <div class="form-group">
       <label for="event-long-description" class="control-label col-sm-3">Описание:</label>
       <div class="col-sm-9">
-        <textarea ui-tinymce="tinymceOptions" ng-model="$parent.event.longDescription" id="event-long-description" class="form-control" rows="10"></textarea>
+        <textarea ui-tinymce="tinymceOptions" ng-model="event.longDescription" id="event-long-description" class="form-control" rows="10"></textarea>
       </div>
     </div>
     <div class="form-group">
       <label for="event-tags" class="control-label col-sm-3">Категории:</label>
       <div class="col-sm-9">
-        <tags-bar id="event-tags" data="$parent.event.tags" fullcollection="$parent.categories"></tags-bar>
+        <tags-bar id="event-tags" data="event.tags" fullcollection="categories"></tags-bar>
       </div>
     </div>
     <div class="form-group">
       <label for="event-speakers" class="control-label col-sm-3">Докладчики:</label>
       <div class="col-sm-9">
-        <speakers-bar id="event-speakers" data="$parent.event.speakers"></speakers-bar>
+        <speakers-bar id="event-speakers" data="event.speakers"></speakers-bar>
       </div>
     </div>
   </div>

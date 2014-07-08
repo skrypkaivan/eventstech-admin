@@ -52,6 +52,15 @@ form {
     display: block;
     margin: 10px 0 0;
   }
+  .non-typed {
+    .error {
+      display: none !important;
+    }
+    input.ng-invalid, textarea.ng-invalid, select.ng-invalid {
+      border: 1px solid #cccccc !important;
+      outline: inherit !important;
+    }
+  }
 }
 
 .btn-circle {

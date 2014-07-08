@@ -7,7 +7,7 @@ angular.module('itytApp').controller('SpeakerEditModalInstanceCtrl',
     $scope.speaker = angular.copy(speaker);
     $scope.categories = angular.copy(categories);
 
-    //If event is new and only about to be added - automatically adding current category to tags list
+    //If speaker is new and only about to be added - automatically adding current category to tags list
     if (!$scope.speaker._id && $routeParams.categoryId !== 'uncategorised') {
       $scope.categories.find(function(elem) {
         if (+elem._id === +$routeParams.categoryId) {
@@ -35,12 +35,18 @@ angular.module('itytApp').controller('SpeakerEditModalInstanceCtrl',
       ]
     };
 
+    $scope.setForm = function(form) {
+      $scope.form = form;
+    };
+
     $scope.imageAdded = function(newSrc){
       $scope.speaker.photo = newSrc;
     };
 
     $scope.ok = function () {
-      $modalInstance.close($scope.speaker);
+      if($scope.form.$valid) {
+        $modalInstance.close($scope.speaker);
+      }
     };
 
     $scope.cancel = function () {
