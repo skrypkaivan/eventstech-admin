@@ -61,6 +61,11 @@ form {
       outline: inherit !important;
     }
   }
+  .form-group {
+    input[type="radio"], input[type="checkbox"] {
+      margin-top: 9px;
+    }
+  }
 }
 
 .btn-circle {
