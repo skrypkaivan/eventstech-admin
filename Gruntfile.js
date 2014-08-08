@@ -18,7 +18,8 @@ module.exports = function (grunt) {
   var modRewrite = require('connect-modrewrite');
   var yeomanConfig = {
     app: 'app',
-    dist: 'dist'
+    dist: 'dist',
+    views: 'views'
   };
 
   require('load-grunt-tasks')(grunt);
@@ -81,7 +82,7 @@ module.exports = function (grunt) {
           livereload: true
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/<%= yeoman.views %>/{,*//*}*.{html,jade}',
           '.tmp/styles/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js'
           //'<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'

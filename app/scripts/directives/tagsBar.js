@@ -2,7 +2,7 @@
 
 angular.module('itytApp').directive('tagsBar', function () {
   return {
-    templateUrl: 'views/tagsBar.html',
+    templateUrl: 'partials/tagsBar.html',
     replace: 'true',
     restrict: 'E',
     scope: {

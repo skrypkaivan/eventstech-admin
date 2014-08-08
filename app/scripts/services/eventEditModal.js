@@ -11,7 +11,7 @@ angular.module('itytApp').service('EventEditModal', ['$modal', 'Events', functio
   startDate = startDate.getTime();
   endDate = startDate + 3*3600*1000;
   modalDefaults = {
-    templateUrl: "views/eventEditModal.html",
+    templateUrl: "partials/eventEditModal.html",
     controller: "EventEditModalInstanceCtrl",
     size: "lg",
     windowClass: "modal-centered",

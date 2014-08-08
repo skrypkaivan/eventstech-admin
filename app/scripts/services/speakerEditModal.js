@@ -3,7 +3,7 @@
 angular.module('itytApp').service('SpeakerEditModal', ['$modal', 'Speakers', function($modal, Speakers) {
 
   var modalDefaults = {
-    templateUrl: "views/speakerEditModal.html",
+    templateUrl: "partials/speakerEditModal.html",
     controller: "SpeakerEditModalInstanceCtrl",
     size: "lg",
     windowClass: "modal-centered",

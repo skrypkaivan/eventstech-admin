@@ -2,7 +2,7 @@
 
 angular.module('itytApp').directive('speakersBar', ['Speakers', function(Speakers) {
   return {
-    templateUrl: 'views/speakersBar.html',
+    templateUrl: 'partials/speakersBar.html',
     replace: 'true',
     restrict: 'E',
     scope: {

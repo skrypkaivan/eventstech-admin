@@ -3,7 +3,7 @@
 angular.module('itytApp').service('ConfirmationWindow', ['$modal', function ($modal) {
 
   var modalDefaults = {
-    templateUrl: "views/confirmationWindow.html",
+    templateUrl: "partials/confirmationWindow.html",
     size: "sm",
     controller: "ConfirmationWindowInstanceCtrl",
     windowClass: "modal-centered modal-confirmation",

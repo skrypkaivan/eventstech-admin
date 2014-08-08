@@ -3,7 +3,7 @@
 angular.module('itytApp').directive('imageFileUpload', [function () {
   return {
     restrict: 'E',
-    templateUrl: 'views/imageFileUploader.html',
+    templateUrl: 'partials/imageFileUploader.html',
     replace: true,
     scope: {
       src: '=',

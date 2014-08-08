@@ -3,7 +3,7 @@
 angular.module('itytApp').service('CategoryEditModal', ['$modal', function($modal) {
 
   var modalDefaults = {
-    templateUrl: "views/categoryEditModal.html",
+    templateUrl: "partials/categoryEditModal.html",
     controller: "CategoryEditModalInstanceCtrl",
     size: "sm",
     windowClass: "modal-centered",

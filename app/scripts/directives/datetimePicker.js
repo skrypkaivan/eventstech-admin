@@ -3,7 +3,7 @@
 angular.module('itytApp').directive('datetimePicker', [function() {
   return {
     restrict: "E",
-    templateUrl: "views/dateTimepicker.html",
+    templateUrl: "partials/dateTimepicker.html",
     replace: true,
     scope: {
       timestamp: '=',
