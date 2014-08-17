@@ -56,21 +56,6 @@ angular.module('itytApp').service('Speakers', ['$http', 'Constants', function Ev
       });
   };
 
-  speakersFactory.addCategory = function(data) {
-    var response = $http.put(Constants.urls.speakersCategoryMaintainanceURL, data);
-    return response;
-  };
-
-  speakersFactory.editCategory = function(data) {
-    var response = $http.post(Constants.urls.speakersCategoryMaintainanceURL, data);
-    return response;
-  };
-
-  speakersFactory.deleteCategory = function(data) {
-    var response = $http.delete(Constants.urls.speakersCategoryMaintainanceURL, data);
-    return response;
-  };
-
   speakersFactory.deleteSpeaker = function(data) {
     var response = $http.delete(Constants.urls.speakerMaintainanceURL, data);
     return response;
@@ -88,4 +73,8 @@ angular.module('itytApp').service('Speakers', ['$http', 'Constants', function Ev
 
   return speakersFactory;
 
+}]).factory("SpeakerCategory", ["$resource", function($resource) {
+    return $resource("api/speakers_tag/:tagId", {}, {
+        create: {method: "PUT", isArray: false}
+    })
 }]);

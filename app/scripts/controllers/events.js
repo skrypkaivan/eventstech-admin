@@ -1,8 +1,19 @@
 'use strict';
 
 angular.module('itytApp').controller('EventsCtrl',
-  ['$scope', '$routeParams', '$location','CategoriesData', 'EventsData', 'CategoryEditModal', 'EventEditModal', 'ConfirmationWindow', 'Events', 'Page', 'Constants',
-  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, EventEditModal, ConfirmationWindow, Events, Page, Constants) {
+  ['$scope',
+   '$routeParams',
+   '$location',
+   'CategoriesData',
+   'EventsData',
+   'CategoryEditModal',
+   'EventEditModal',
+   'ConfirmationWindow',
+   'Events',
+   'Page',
+   'Constants',
+   'EventCategory',
+  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, EventEditModal, ConfirmationWindow, Events, Page, Constants, EventCategory) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'События'];
@@ -36,18 +47,17 @@ angular.module('itytApp').controller('EventsCtrl',
     //ToDO: make propper errors handling, data to paste should come from the response
     $scope.addCategory = function() {
       CategoryEditModal.show().then(function(data) {
-        Events.addCategory(data)
-          .success(function(response) {
-            if (!response.error) {
-              //Todo: remove ID - whole data should come from the server
-              data._id = (new Date()).getTime();
-              $scope.categories.push(data);
-            }
-          })
-          .error(function(response) {
+        EventCategory.create(data,
+            function(data) {
+                $scope.categories.push(data);
+            },
+            function(response) {
+                if (response.data.fieldErrors) {
 
-          });
-      });
+                }
+            }
+        );
+      })
     };
 
     //ToDO: make propper errors handling, data to paste should come from the response
@@ -59,25 +69,24 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function(data) {
-        Events.editCategory(data)
-          .success(function(response) {
-            var i, l;
-            if (response.error) {
-              return;
-            }
-            for (i = 0, l = $scope.categories.length; i < l; i++) {
-              if ($scope.categories[i]._id === data._id) {
-                $scope.categories[i] = data;
-                break;
-              }
-            }
-            if ($scope.category && $scope.category._id) {
-              $scope.category = data;
-            }
-          })
-          .error(function(response) {
+        EventCategory.save(data,
+            function (response) {
+                for (var i = 0, l = $scope.categories.length; i < l; i++) {
+                    if ($scope.categories[i]._id === data._id) {
+                        $scope.categories[i] = data;
+                        break;
+                    }
+                }
+                if ($scope.category && $scope.category._id) {
+                    $scope.category = data;
+                }
+            },
+            function (response) {
+                if (response.data.fieldErrors) {
 
-          });
+                }
+            }
+        );
       });
     };
 
@@ -90,25 +99,22 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function() {
-        Events.deleteCategory(category)
-          .success(function(response) {
-            var index;
-            if (response.error) {
-              return;
+        EventCategory.delete({tagId:category._id},
+            function(response) {
+                var index = $scope.categories.indexOf(category);
+                if (+$scope.category._id === +category._id) {
+                    $scope.category = null;
+                    $scope.events = [];
+                    $scope.message = "Выберите категорию событий";
+                }
+                $scope.categories.splice(index ,1);
+            },
+            function(response) {
+                if (response.data.fieldErrors) {
+
+                }
             }
-
-            index = $scope.categories.indexOf(category);
-            if (+$scope.category._id === +category._id) {
-              $scope.category = null;
-              $scope.events = [];
-              $scope.message = "Выберите категорию событий";
-            }
-            $scope.categories.splice(index ,1);
-
-          })
-          .error(function(response) {
-
-          });
+        );
       });
     };
 

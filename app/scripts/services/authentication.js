@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('itytApp').service('AuthenticationService',
-  ['$http', '$cookieStore', '$rootScope', function Events($http, $cookieStore, $rootScope) {
+  ['$http', '$cookieStore', '$rootScope','$location', function Events($http, $cookieStore, $rootScope, $location) {
 
-    var authService = {}, guestUserObject = { userName: '', userRole: 'guest' };
+    var authService = {}, guestUserObject = { userName: '', userRoles: 'guest' };
 
     $rootScope.user = $cookieStore.get('user') || guestUserObject;
 
     authService.isLoggedIn = function() {
-      return $rootScope.userName && $rootScope.userRole !== 'guest';
+      return $rootScope.user && $rootScope.user.userName && $rootScope.user.userRoles !== 'guest';
     };
 
     authService.getUserRole = function() {
@@ -16,18 +16,45 @@ angular.module('itytApp').service('AuthenticationService',
     };
 
     authService.login = function(credentials) {
-      return $http.post('/login', credentials).success(function(res) {
-        $rootScope.user = res;
-      });
+      return $http({
+          method:'POST',
+          url: 'api/login',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          data: $.param(credentials)
+      }).success(function(res) {
+          $cookieStore.put('user', res);
+          $rootScope.user = res;
+      })
     };
 
     authService.logout = function() {
-      return $http.post('/logout').success(function(res) {
+      return $http.post('api/logout').success(function(res) {
+        $cookieStore.remove("user");
         $rootScope.user = guestUserObject;
+        $location.path("/login");
       });
     };
 
     return authService;
-
   }
-]);
+]).factory("AuthenticationInterceptor", ['$rootScope', '$q', function($scope, $q) {
+    return ["AuthenticationService", function(authService) {
+
+        var authInterceptor = {};
+
+        authInterceptor.response = function(response) {
+            return response;
+        };
+
+        authInterceptor.responseError = function(response) {
+            var status = response.status;
+            if (status == 401) {
+                authService.logout();
+                return;
+            }
+            return $q.reject(response);
+        };
+
+        return authInterceptor;
+    }];
+}]);

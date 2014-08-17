@@ -1,26 +1,12 @@
 'use strict';
 
-angular.module('itytApp').service('Events', ['$http', 'Constants', function Events($http, Constants) {
+angular.module('itytApp').service('Events', ['$resource','$http', 'Constants', function Events($resource, $http, Constants) {
 
   var eventsFactory = {};
 
   eventsFactory.getAll = function() {
     var response = {};
     return $http.get(Constants.urls.dataEventsUrl)
-      .success(function(data) {
-        response = data;
-      })
-      .error(function(message) {
-        response.error = message;
-      })
-      .then(function() {
-        return response;
-      });
-  };
-
-  eventsFactory.getCategories = function() {
-    var response = {};
-    return $http.get(Constants.urls.dataEventsCategories)
       .success(function(data) {
         response = data;
       })
@@ -56,21 +42,6 @@ angular.module('itytApp').service('Events', ['$http', 'Constants', function Even
       });
   };
 
-  eventsFactory.addCategory = function(data) {
-    var response = $http.put(Constants.urls.eventsCategoryMaintainanceURL, data);
-    return response;
-  };
-
-  eventsFactory.editCategory = function(data) {
-    var response = $http.post(Constants.urls.eventsCategoryMaintainanceURL, data);
-    return response;
-  };
-
-  eventsFactory.deleteCategory = function(data) {
-    var response = $http.delete(Constants.urls.eventsCategoryMaintainanceURL, data);
-    return response;
-  };
-
   eventsFactory.deleteEvent = function(data) {
     var response = $http.delete(Constants.urls.eventMaintainanceURL, data);
     return response;
@@ -88,4 +59,8 @@ angular.module('itytApp').service('Events', ['$http', 'Constants', function Even
 
   return eventsFactory;
 
+}]).factory("EventCategory", ['$resource', function($resource) {
+    return $resource("api/events_tag/:tagId",{}, {
+        create: {method: "PUT", isArray: false}
+    });
 }]);

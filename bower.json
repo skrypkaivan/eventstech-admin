@@ -11,6 +11,7 @@
     "angular-route": "1.2.18",
     "angular-cookies": "~1.0.7",
     "angular-sanitize": "~1.0.7",
+    "underscore":"1.5.2",
     "angular-bindonce": "0.3.1",
     "angular-bootstrap": "0.11.0",
     "angular-ui-tinymce": "git://github.com/angular-ui/ui-tinymce.git#c46b97622443bf5c0ba4e2e013f8721952b6124f",

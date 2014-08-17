@@ -10,9 +10,9 @@ angular.module('itytApp').service('Constants', function() {
       dataSpeakersCategories: 'mock_data/dataSpeakersCategories.json',
       speakersCategoryMaintainanceURL: 'speakers/categories',
       speakerMaintainanceURL: 'speakers',
-      dataEventsUrl: 'mock_data/dataEvents.json',
-      dataEventsCategories: 'mock_data/dataEventsCategories.json',
-      eventsCategoryMaintainanceURL: 'events/categories',
+      dataEventsUrl: 'api/event',
+      dataEventsCategories: 'api/events_tag',
+      eventsCategoryMaintainanceURL: 'api/events_tag',
       eventMaintainanceURL: 'events'
     }
   };

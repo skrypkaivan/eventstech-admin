@@ -1,8 +1,18 @@
 'use strict';
 
 angular.module('itytApp').controller('SpeakersCtrl',
-  ['$scope', '$routeParams', 'CategoriesData', 'SpeakersData', 'SpeakerEditModal', 'CategoryEditModal', 'ConfirmationWindow', 'Speakers', 'Page', 'Constants',
-  function ($scope, $routeParams, CategoriesData, SpeakersData, SpeakerEditModal, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants) {
+  ['$scope',
+   '$routeParams',
+   'CategoriesData',
+   'SpeakersData',
+   'SpeakerEditModal',
+   'CategoryEditModal',
+   'ConfirmationWindow',
+   'Speakers',
+   'Page',
+   'Constants',
+    'SpeakerCategory',
+  function ($scope, $routeParams, CategoriesData, SpeakersData, SpeakerEditModal, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants, SpeakerCategory) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'Докладчики'];
@@ -36,18 +46,16 @@ angular.module('itytApp').controller('SpeakersCtrl',
     //ToDO: make propper errors handling, data to paste should come from the response
     $scope.addCategory = function() {
       CategoryEditModal.show().then(function(data) {
-        Speakers.addCategory(data)
-          .success(function(response) {
-            if (response.error) {
-              return;
-            }
-            //Todo: remove ID - whole data should come from the server
-            data._id = (new Date()).getTime();
-            $scope.categories.push(data);
-          })
-          .error(function(response) {
+        SpeakerCategory.create(data,
+            function(response) {
+                $scope.categories.push(data);
+            },
+            function(response) {
+                if (response.data.fieldErrors) {
 
-          });
+                }
+            }
+        );
       });
     };
 
@@ -60,25 +68,24 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function(data) {
-        Speakers.editCategory(data)
-          .success(function(response) {
-            var i, l;
-            if (response.error) {
-              return;
-            }
-            for (i = 0, l = $scope.categories.length; i < l; i++) {
-              if ($scope.categories[i]._id === data._id) {
-                $scope.categories[i] = data;
-                break;
-              }
-            }
-            if ($scope.category && $scope.category._id) {
-              $scope.category = data;
-            }
-          })
-          .error(function(response) {
+        SpeakerCategory.save(data,
+            function(response) {
+                for (var i = 0, l = $scope.categories.length; i < l; i++) {
+                    if ($scope.categories[i]._id === data._id) {
+                        $scope.categories[i] = data;
+                        break;
+                    }
+                }
+                if ($scope.category && $scope.category._id) {
+                    $scope.category = data;
+                }
+            },
+            function(response) {
+                if (response.data.fieldErrors) {
 
-          });
+                }
+            }
+        );
       });
     };
 
@@ -91,24 +98,23 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function() {
-        Speakers.deleteCategory(category)
-          .success(function(response) {
-            var index;
-            if (response.error) {
-              return;
-            }
-            index = $scope.categories.indexOf(category);
-            if (+$scope.category._id === +category._id) {
-              $scope.category = null;
-              $scope.speakers = [];
-              $scope.message = "Выберите категорию докладчиков";
-            }
-            $scope.categories.splice(index ,1);
-          })
-          .error(function(response) {
+        SpeakerCategory.delete({tagId:category._id},
+            function(response) {
+                var index = $scope.categories.indexOf(category);
+                if (+$scope.category._id === +category._id) {
+                    $scope.category = null;
+                    $scope.speakers = [];
+                    $scope.message = "Выберите категорию докладчиков";
+                }
+                $scope.categories.splice(index ,1);
+            },
+            function(response){
+                if (response.data.fieldErrors) {
 
-          });
-        });
+                }
+            }
+        );
+      });
     };
 
     //ToDO: make propper errors handling

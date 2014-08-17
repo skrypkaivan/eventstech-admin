@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tinymce', 'angucomplete', 'pasvaz.bindonce', 'ngCookies'])
-  .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+angular.module('itytApp', ['ngResource','ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tinymce', 'angucomplete', 'pasvaz.bindonce', 'ngCookies'])
+  .config(['$routeProvider', '$locationProvider','$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
 
     $routeProvider
       .when('/login', {
@@ -12,8 +12,8 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
         templateUrl: 'partials/events.html',
         controller: 'EventsCtrl',
         resolve: {
-          CategoriesData: function(Events) {
-            return Events.getCategories();
+          CategoriesData: function(EventCategory) {
+            return EventCategory.query();
           },
           EventsData: function() {
             return [];
@@ -24,8 +24,8 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
         templateUrl: 'partials/events.html',
         controller: 'EventsCtrl',
         resolve: {
-          CategoriesData: function(Events) {
-            return Events.getCategories();
+          CategoriesData: function(EventCategory) {
+            return EventCategory.query();
           },
           EventsData: function($route, Events) {
             return Events.getByCategory($route.current.params.categoryId);
@@ -36,8 +36,8 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
         templateUrl: 'partials/speakers.html',
         controller: 'SpeakersCtrl',
         resolve: {
-          CategoriesData: function(Speakers) {
-            return Speakers.getCategories();
+          CategoriesData: function(SpeakerCategory) {
+            return SpeakerCategory.query();
           },
           SpeakersData: function() {
             return [];
@@ -48,8 +48,8 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
         templateUrl: 'partials/speakers.html',
         controller: 'SpeakersCtrl',
         resolve: {
-          CategoriesData: function(Speakers) {
-            return Speakers.getCategories();
+          CategoriesData: function(SpeakerCategory) {
+            return SpeakerCategory.query();
           },
           SpeakersData: function($route, Speakers) {
             return Speakers.getByCategory($route.current.params.categoryId);
@@ -61,6 +61,7 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
       });
 
     $locationProvider.html5Mode(true).hashPrefix('!');
+    $httpProvider.interceptors.push("AuthenticationInterceptor");
 
   }]).run(function ($rootScope, $location, AuthenticationService) {
 
@@ -70,18 +71,23 @@ angular.module('itytApp', ['ngRoute', 'pasvaz.bindonce', 'ui.bootstrap', 'ui.tin
     // check if current location matches route
     var routeClean = function (route) {
       return routesThatDontRequireAuth.find(function (noAuthRoute) {
-        console.log(route + " " + noAuthRoute + (noAuthRoute.indexOf(route) !== -1));
-        return noAuthRoute.indexOf(route) !== -1;
+        console.log(route + " " + noAuthRoute + (noAuthRoute === route));
+        return noAuthRoute === route;
       });
+    };
+
+    var isAuthorizationRequired = function () {
+        if (!routeClean($location.url()) && !AuthenticationService.isLoggedIn()) {
+            // redirect back to login
+            $location.path('/login');
+        }
     };
 
     $rootScope.$on('$stateChangeStart', function () {
       console.log('$stateChangeStart');
       // if route requires auth and user is not logged in
-      if (!routeClean($location.url()) && !AuthenticationService.isLoggedIn()) {
-        // redirect back to login
-        $location.path('/login');
-      }
+        isAuthorizationRequired();
     });
 
+    isAuthorizationRequired();
   });
