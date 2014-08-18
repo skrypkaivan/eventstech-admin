@@ -1,16 +1,14 @@
 'use strict';
 
 angular.module('itytApp').service('AuthenticationService',
-  ['$http', '$cookieStore', '$rootScope','$location', function($http, $cookieStore, $rootScope, $location) {
+  ['$http', '$cookieStore', '$rootScope','$location', function Events($http, $cookieStore, $rootScope, $location) {
 
-    var authService = {}, guestUserObject = { userName: '', userRoles: 'guest' };
+    var authService = {}, guestUserObject = { userName: '', userRoles: 'guest', authToken: ""};
 
     $rootScope.user = $cookieStore.get('user') || guestUserObject;
 
-    var allowedUserRoles = ["ROLE_ADMIN","ROLE_MANAGER"];
-
     authService.isLoggedIn = function() {
-      return $rootScope.user && $rootScope.user.userName && $rootScope.user.userRoles !== 'guest';
+      return $rootScope.user && $rootScope.user.authToken && $rootScope.user.userName && $rootScope.user.userRoles !== 'guest';
     };
 
     authService.getUserRole = function() {
@@ -30,45 +28,36 @@ angular.module('itytApp').service('AuthenticationService',
     };
 
     authService.logout = function() {
-      return $http.post('api/logout').success(function(res) {
         $cookieStore.remove("user");
         $rootScope.user = guestUserObject;
         $location.path("/login");
-      });
-    };
-
-    authService.getAllowedRoles = function() {
-       return allowedUserRoles;
-    };
-
-    authService.isUserAllowed = function() {
-        return $rootScope.user && _.intersection(allowedUserRoles, $rootScope.user.userRoles).length > 0;
     };
 
     return authService;
   }
-]).factory("AuthenticationInterceptor", ['$rootScope', '$q', function($scope, $q) {
-    return ["AuthenticationService", function(authService) {
-
+]).factory("AuthenticationInterceptor", ['$rootScope', '$q','$cookieStore',"$location", function($scope, $q, $cookieStore, $location) {
         var authInterceptor = {};
 
         authInterceptor.response = function(response) {
-            if (!authService.isUserAllowed()) {
-                authService.logout();
-                return;
-            }
             return response;
+        };
+
+        authInterceptor.request = function(config) {
+            config.headers["X-Auth-Login"] = $scope.user.userName;
+            config.headers["X-Auth-Token"] = $scope.user.authToken;
+            return config;
         };
 
         authInterceptor.responseError = function(response) {
             var status = response.status;
-            if (status == 401 || !authService.isUserAllowed()) {
-                authService.logout();
+            if (status == 401) {
+                $cookieStore.remove("user");
+                $scope.user = "";
+                $location.path("/");
                 return;
             }
             return $q.reject(response);
         };
 
         return authInterceptor;
-    }];
 }]);
