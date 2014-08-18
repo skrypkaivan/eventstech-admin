@@ -53,6 +53,10 @@ angular.module('itytApp').service('AuthenticationService',
         var authInterceptor = {};
 
         authInterceptor.response = function(response) {
+            if (!authService.isUserAllowed()) {
+                authService.logout();
+                return;
+            }
             return response;
         };
 
