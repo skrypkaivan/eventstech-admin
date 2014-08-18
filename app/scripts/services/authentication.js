@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('itytApp').service('AuthenticationService',
-  ['$http', '$cookieStore', '$rootScope','$location', function Events($http, $cookieStore, $rootScope, $location) {
+  ['$http', '$cookieStore', '$rootScope','$location', function($http, $cookieStore, $rootScope, $location) {
 
     var authService = {}, guestUserObject = { userName: '', userRoles: 'guest' };
 
     $rootScope.user = $cookieStore.get('user') || guestUserObject;
+
+    var allowedUserRoles = ["ROLE_ADMIN","ROLE_MANAGER"];
 
     authService.isLoggedIn = function() {
       return $rootScope.user && $rootScope.user.userName && $rootScope.user.userRoles !== 'guest';
@@ -35,6 +37,14 @@ angular.module('itytApp').service('AuthenticationService',
       });
     };
 
+    authService.getAllowedRoles = function() {
+       return allowedUserRoles;
+    };
+
+    authService.isUserAllowed = function() {
+        return $rootScope.user && _.intersection(allowedUserRoles, $rootScope.user.userRoles).length > 0;
+    };
+
     return authService;
   }
 ]).factory("AuthenticationInterceptor", ['$rootScope', '$q', function($scope, $q) {
@@ -48,7 +58,7 @@ angular.module('itytApp').service('AuthenticationService',
 
         authInterceptor.responseError = function(response) {
             var status = response.status;
-            if (status == 401) {
+            if (status == 401 || !authService.isUserAllowed()) {
                 authService.logout();
                 return;
             }
