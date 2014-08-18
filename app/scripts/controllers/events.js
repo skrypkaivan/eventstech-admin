@@ -72,13 +72,13 @@ angular.module('itytApp').controller('EventsCtrl',
         EventCategory.save(data,
             function (response) {
                 for (var i = 0, l = $scope.categories.length; i < l; i++) {
-                    if ($scope.categories[i]._id === data._id) {
-                        $scope.categories[i] = data;
+                    if ($scope.categories[i]._id === response._id) {
+                        $scope.categories[i] = response;
                         break;
                     }
                 }
                 if ($scope.category && $scope.category._id) {
-                    $scope.category = data;
+                    $scope.category = response;
                 }
             },
             function (response) {

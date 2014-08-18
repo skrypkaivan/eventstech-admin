@@ -1,9 +1,15 @@
 'use strict';
 
 angular.module('itytApp').service('AuthenticationService',
-  ['$http', '$cookieStore', '$rootScope','$location', function Events($http, $cookieStore, $rootScope, $location) {
+  ['$http',
+   '$cookieStore',
+   '$rootScope',
+   '$location',
+   'AUTH_EVENTS',
+   "ACCEPTABLE_USER_ROLES", function($http, $cookieStore, $rootScope, $location, AUTH_EVENTS, ACCEPTABLE_USER_ROLES) {
 
-    var authService = {}, guestUserObject = { userName: '', userRoles: 'guest', authToken: ""};
+    var authService = {},
+        guestUserObject = { userName: '', userRoles: ['guest'], authToken: ""};
 
     $rootScope.user = $cookieStore.get('user') || guestUserObject;
 
@@ -22,8 +28,10 @@ angular.module('itytApp').service('AuthenticationService',
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           data: $.param(credentials)
       }).success(function(res) {
-          $cookieStore.put('user', res);
-          $rootScope.user = res;
+          if (_.intersection(res.userRoles, ACCEPTABLE_USER_ROLES).length > 0) {
+              $cookieStore.put('user', res);
+              $rootScope.user = res;
+          }
       })
     };
 
@@ -33,9 +41,13 @@ angular.module('itytApp').service('AuthenticationService',
         $location.path("/login");
     };
 
+    $rootScope.$on(AUTH_EVENTS.NOT_AUTHORIZED, function() {
+        authService.logout();
+    });
+
     return authService;
   }
-]).factory("AuthenticationInterceptor", ['$rootScope', '$q','$cookieStore',"$location", function($scope, $q, $cookieStore, $location) {
+]).factory("AuthenticationInterceptor", ['$rootScope', '$q','AUTH_EVENTS', function($scope, $q, AUTH_EVENTS) {
         var authInterceptor = {};
 
         authInterceptor.response = function(response) {
@@ -51,10 +63,9 @@ angular.module('itytApp').service('AuthenticationService',
         authInterceptor.responseError = function(response) {
             var status = response.status;
             if (status == 401) {
-                $cookieStore.remove("user");
-                $scope.user = "";
-                $location.path("/");
-                return;
+                $scope.$broadcast(AUTH_EVENTS.NOT_AUTHORIZED);
+            } else if (status == 403) {
+                $scope.$broadcast(AUTH_EVENTS.FORBIDDEN);
             }
             return $q.reject(response);
         };

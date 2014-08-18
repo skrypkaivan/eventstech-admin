@@ -6,9 +6,6 @@ angular.module('itytApp').controller('PageCtrl', ['$scope', '$location', 'Page',
     $scope.Page = Page;
 
     $scope.logout = function() {
-      AuthenticationService.logout().then(function() {
-        $location.path('/login');
-      });
+      AuthenticationService.logout();
     };
-
   }]);

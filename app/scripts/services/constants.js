@@ -16,4 +16,7 @@ angular.module('itytApp').service('Constants', function() {
       eventMaintainanceURL: 'events'
     }
   };
-});
+}).constant("AUTH_EVENTS", {
+    NOT_AUTHORIZED: "not_authorized",
+    FORBIDDEN: "Forbidden"
+}).constant("ACCEPTABLE_USER_ROLES", ["ROLE_ADMIN", "ROLE_MANAGER"]);
