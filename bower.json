@@ -2,7 +2,7 @@
   "name": "ityt",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.19",
+    "angular": "1.2.18",
     "json3": "~3.2.4",
     "jquery": "~1.9.1",
     "bootstrap-sass-official": "~3.1.1",
