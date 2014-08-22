@@ -4,7 +4,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3">Изображение:</label>
       <div class="col-sm-5">
-        <image-file-upload src="event.logo | eventLogo" type="event" callback="imageAdded"></image-file-upload>
+        <image-file-upload src="event.logo" type="event" callback="imageAdded"></image-file-upload>
       </div>
     </div>
     <div class="form-group">
@@ -12,6 +12,13 @@
       <div class="col-sm-9">
         <input ng-model="event.name" name="eventName" id="event-name" class="form-control" placeholder="Название" required hide-validation-on-new-untill-typed />
         <span class="error" ng-show="form.eventName.$error.required">Обязательное поле</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="event-name" class="control-label col-sm-3">Slug:</label>
+        <div class="col-sm-9">
+          <input ng-model="event.slug" name="eventSlug" id="event-slug" class="form-control" placeholder="Slug" required hide-validation-on-new-untill-typed />
+          <span class="error" ng-show="form.eventSlug.$error.required">Обязательное поле</span>
       </div>
     </div>
     <div class="form-group">

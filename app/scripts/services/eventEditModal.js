@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').service('EventEditModal', ['$modal', 'Events', function($modal, Events) {
+angular.module('itytApp').service('EventEditModal', ['$modal', 'EventCategory', function($modal, EventCategory) {
 
   var startDate = new Date(),
       endDate, modalDefaults;
@@ -21,11 +21,16 @@ angular.module('itytApp').service('EventEditModal', ['$modal', 'Events', functio
         return {
           startdate: startDate,
           enddate: endDate,
-          tags: []
+          tags: [],
+          speakers: []
         };
       },
-      categories: function(Events) {
-        return Events.getCategories();
+      categories: function(EventCategory, $q) {
+        var deferred = $q.defer();
+        EventCategory.query({}, function(response) {
+            deferred.resolve(response);
+        });
+        return deferred.promise;
       }
     }
   };

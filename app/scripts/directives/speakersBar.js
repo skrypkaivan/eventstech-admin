@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').directive('speakersBar', ['Speakers', function(Speakers) {
+angular.module('itytApp').directive('speakersBar', ['Speaker', function(Speaker) {
   return {
     templateUrl: 'partials/speakersBar.html',
     replace: 'true',
@@ -11,13 +11,13 @@ angular.module('itytApp').directive('speakersBar', ['Speakers', function(Speaker
     controller: function($scope, $element) {
 
       $scope.fullCollection = [];
-      Speakers.getAll().then(function(data) {
+      Speaker.query({}, function(data) {
         $scope.fullCollection = data;
       });
 
       $scope.removeSpeaker = function(speaker) {
         $scope.data.find(function(elem, index) {
-          if (+elem._id === +speaker._id) {
+          if (elem._id === speaker._id) {
             $scope.data.splice(index, 1);
             return true;
           }
@@ -25,7 +25,6 @@ angular.module('itytApp').directive('speakersBar', ['Speakers', function(Speaker
       };
 
       $scope.addSpeaker = function(speaker) {
-
         var isPresent = false, speakerToAdd;
 
         if (!speaker) {
@@ -39,7 +38,7 @@ angular.module('itytApp').directive('speakersBar', ['Speakers', function(Speaker
         };
 
         isPresent = $scope.data.find(function(elem) {
-          if (+elem._id === +speakerToAdd._id) {
+          if (elem._id === speakerToAdd._id) {
             return true;
           }
         });

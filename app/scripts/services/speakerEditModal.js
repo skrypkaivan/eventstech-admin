@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('itytApp').service('SpeakerEditModal', ['$modal', 'Speakers', function($modal, Speakers) {
+angular.module('itytApp').service('SpeakerEditModal', ['$modal', function($modal) {
 
   var modalDefaults = {
     templateUrl: "partials/speakerEditModal.html",
@@ -10,16 +10,17 @@ angular.module('itytApp').service('SpeakerEditModal', ['$modal', 'Speakers', fun
     categories: [],
     resolve: {
       speaker: function() {
-        return {
-          tags: []
-        };
+          return {tags: []}
       },
-      categories: function(Speakers) {
-        return Speakers.getCategories();
+      categories: function($q, SpeakerCategory) {
+        var deferred = $q.defer();
+          SpeakerCategory.query({}, function(response) {
+            deferred.resolve(response);
+        });
+        return deferred.promise;
       }
     }
   };
-
 
   this.show = function (customModalDefaults) {
     var modalOptions = {}, modal;
@@ -27,5 +28,4 @@ angular.module('itytApp').service('SpeakerEditModal', ['$modal', 'Speakers', fun
     modal = $modal.open(modalOptions);
     return modal.result;
   };
-
 }]);

@@ -1,7 +1,7 @@
 <div class="speakers-bar">
   <ul>
     <li ng-repeat="speaker in data">
-      <div><img ng-src="{{speaker.photo | speakerPhoto}}" class="speaker_photo" /></div>
+      <div><img ng-src="{{speaker.photo}}" class="speaker_photo" /></div>
       <button class="btn btn-default btn-xs" ng-click="removeSpeaker(speaker)">
         <span class="glyphicon glyphicon-remove"></span> {{speaker.name}}
       </button>

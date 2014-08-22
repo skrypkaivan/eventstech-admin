@@ -8,11 +8,11 @@ angular.module('itytApp').controller('SpeakersCtrl',
    'SpeakerEditModal',
    'CategoryEditModal',
    'ConfirmationWindow',
-   'Speakers',
    'Page',
    'Constants',
-    'SpeakerCategory',
-  function ($scope, $routeParams, CategoriesData, SpeakersData, SpeakerEditModal, CategoryEditModal, ConfirmationWindow, Speakers, Page, Constants, SpeakerCategory) {
+   'SpeakerCategory',
+   'Speaker',
+  function ($scope, $routeParams, CategoriesData, SpeakersData, SpeakerEditModal, CategoryEditModal, ConfirmationWindow, Page, Constants, SpeakerCategory, Speaker) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'Докладчики'];
@@ -23,13 +23,13 @@ angular.module('itytApp').controller('SpeakersCtrl',
     $scope.speakers = [];
     $scope.category = null;
 
-    if ($routeParams.categoryId) {
+    if ($routeParams.slug) {
       $scope.category = $scope.categories.find(function(elem) {
-        if ($routeParams.categoryId === 'uncategorised'){
-          return elem.slug ===  $routeParams.categoryId;
+        if ($routeParams.slug === 'uncategorised'){
+          return elem.slug ===  $routeParams.slug;
         }
         else {
-          return +elem._id === +$routeParams.categoryId;
+          return elem.slug === $routeParams.slug;
         }
       });
       if (SpeakersData.length) {
@@ -48,7 +48,7 @@ angular.module('itytApp').controller('SpeakersCtrl',
       CategoryEditModal.show().then(function(data) {
         SpeakerCategory.create(data,
             function(response) {
-                $scope.categories.push(data);
+                $scope.categories.push(response);
             },
             function(response) {
                 if (response.data.fieldErrors) {
@@ -126,19 +126,15 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function() {
-        Speakers.deleteSpeaker(speaker)
-          .success(function(response) {
-            var index;
-            if (response.error) {
-              return;
-            }
+        Speaker.delete({slug:speaker._id},
+          function(response) {
             index = $scope.speakers.indexOf(speaker);
             $scope.speakers.splice(index ,1);
             if (!$scope.speakers.length) {
               $scope.message = "Докладчики в категории отсутствуют";
             }
-          })
-          .error(function(response) {
+          },
+          function(response) {
 
           });
       });
@@ -153,29 +149,20 @@ angular.module('itytApp').controller('SpeakersCtrl',
           }
         }
       }).then(function() {
-        Speakers.editSpeaker(speaker)
-          .success(function(response) {
-
-            if (response.error) {
-              return;
-            }
-
-            //Modifying spearks tags
-            speaker.tags.find(function(elem, index) {
-              if (+elem._id === +category._id) {
-                speaker.tags.splice(index, 1);
-                return true;
-              }
-            });
-
+        //Modifying spearks tags
+        speaker.tags.find(function(elem, index) {
+          if (elem._id === category._id) {
+              speaker.tags.splice(index, 1);
+              return true;
+        }});
+        Speaker.save(speaker, function(response) {
             //Removing speaker from category
             $scope.speakers.splice($scope.speakers.indexOf(speaker) ,1);
             if (!$scope.speakers.length) {
               $scope.message = "Докладчики в категории отсутствуют";
             }
-
-          })
-          .error(function(response) {
+          },
+          function(response) {
 
           });
       });
@@ -184,28 +171,19 @@ angular.module('itytApp').controller('SpeakersCtrl',
     //ToDO: make propper errors handling
     $scope.addSpeaker = function() {
       SpeakerEditModal.show().then(function(speaker) {
-        Speakers.addSpeaker(speaker)
-          .success(function(response) {
+        Speaker.create(speaker, function(response) {
+            var isPersistedInCategory = false, data = response;
 
-            //TODO: operate with a real response - not the input data, pay also attention to image's path handling
-            var isPersistenInCategory = false, data = speaker;
-            if (response.error) {
-              return;
-            }
-
-            //Todo: remove ID - whole data should come from the server
-            data._id = (new Date()).getTime();
-
-            isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
-              return +$scope.category._id === +elem._id;
+            isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
+              return $scope.category.slug === elem.slug;
             });
-            // If added event has preserved its category (as well as still holds no tags when has been uncategorized initially) - adding it
-            if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
-              $scope.speakers.push(data);
-            }
 
-          })
-          .error(function(response) {
+            // If added event has preserved its category (as well as still holds no tags when has been uncategorized initially) - adding it
+            if ((!$scope.category.slug && !response.tags.length) || isPersistedInCategory) {
+              $scope.speakers.push(response);
+            }
+          },
+          function(response) {
 
           });
       });
@@ -215,30 +193,30 @@ angular.module('itytApp').controller('SpeakersCtrl',
     $scope.editSpeaker = function(speaker) {
       SpeakerEditModal.show({
         resolve: {
-          speaker: function() {
-            return speaker;
+          speaker: function($q, Speaker) {
+            var deferred = $q.defer();
+            Speaker.get({slug:speaker.slug}, function(response) {
+               deferred.resolve(response);
+            });
+            return deferred.promise;
           },
           categories: function() {
             return CategoriesData;
           }
         }
       }).then(function(data) {
-        Speakers.editSpeaker(data)
-          .success(function(response) {
-            if (response.error) {
-              return;
-            }
+        Speaker.save(data,  function(response) {
             //TODO: operate with a real response - not the input data, pay also attention to image's path handling
             $scope.speakers.find(function(elem, index) {
-              var isPersistenInCategory = false;
-              if (+elem._id === +data._id) {
-                isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
-                  return +$scope.category._id === +elem._id;
+              var isPersistedInCategory = false;
+              if (elem.slug === response.slug) {
+                isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
+                  return $scope.category.slug === elem.slug;
                 });
                 // If updated event has preserved its category (as well as still holds no tags when has been uncategorized initially) -
                 // persist it, otherwise deleting it from the current category's events list
-                if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
-                  $scope.speakers[index] = data;
+                if ((!$scope.category.slug && !response.tags.length) || isPersistedInCategory) {
+                  $scope.speakers[index] = response;
                 }
                 else {
                   $scope.speakers.splice(index, 1);
@@ -246,11 +224,10 @@ angular.module('itytApp').controller('SpeakersCtrl',
                     $scope.message = "В результате редактирования докладчики в данной категории отсутствуют";
                   }
                 }
-                return;
               }
             });
-          })
-          .error(function(response) {
+          },
+          function(response) {
 
           });
       });

@@ -4,7 +4,7 @@
     <div class="form-group">
       <label class="control-label col-sm-3">Фото:</label>
       <div class="col-sm-5">
-        <image-file-upload src="speaker.photo | speakerPhoto" type="speaker" callback="imageAdded"></image-file-upload>
+        <image-file-upload src="speaker.photo" type="speaker" callback="imageAdded"></image-file-upload>
       </div>
     </div>
     <div class="form-group">
@@ -13,6 +13,13 @@
         <input ng-model="speaker.name" name="speakerName" id="speaker-name" class="form-control" placeholder="Имя" hide-validation-on-new-untill-typed required />
         <span class="error" ng-show="form.speakerName.$error.required">Обязательное поле</span>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="speaker-name" class="control-label col-sm-3">Slug:</label>
+        <div class="col-sm-9">
+        <input ng-model="speaker.slug" name="speakerSlug" id="speaker-slug" class="form-control" placeholder="Slug" hide-validation-on-new-untill-typed required />
+            <span class="error" ng-show="form.speakerSlug.$error.required">Обязательное поле</span>
+        </div>
     </div>
     <div class="form-group">
       <label for="speaker-popular" class="control-label col-sm-3">Популярный:</label>

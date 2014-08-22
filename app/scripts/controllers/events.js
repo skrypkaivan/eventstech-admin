@@ -9,11 +9,11 @@ angular.module('itytApp').controller('EventsCtrl',
    'CategoryEditModal',
    'EventEditModal',
    'ConfirmationWindow',
-   'Events',
    'Page',
    'Constants',
    'EventCategory',
-  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, EventEditModal, ConfirmationWindow, Events, Page, Constants, EventCategory) {
+   'Event',
+  function ($scope, $routeParams, $location, CategoriesData, EventsData, CategoryEditModal, EventEditModal, ConfirmationWindow, Page, Constants, EventCategory, Event) {
 
     //ToDO: make propper errors handling
     var title = [Constants.meta.SITE_NAME, CategoriesData.error ? 'Ошибка' : 'События'];
@@ -24,13 +24,13 @@ angular.module('itytApp').controller('EventsCtrl',
     $scope.events = [];
     $scope.category = null;
 
-    if ($routeParams.categoryId) {
+    if ($routeParams.slug) {
       $scope.category = $scope.categories.find(function(elem) {
-        if ($routeParams.categoryId === 'uncategorised'){
-          return elem.slug ===  $routeParams.categoryId;
+        if ($routeParams.slug === 'uncategorised'){
+          return elem.slug ===  $routeParams.slug;
         }
         else {
-          return +elem._id === +$routeParams.categoryId;
+          return elem.slug === $routeParams.slug;
         }
       });
       if (EventsData.length) {
@@ -127,19 +127,13 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function() {
-        Events.deleteEvent(event)
-          .success(function(response) {
-            var index;
-            if (response.error) {
-              return;
-            }
-            index = $scope.events.indexOf(event);
+        Event.deleteEvent({slug:event._id}, function(response) {
+            var index = $scope.events.indexOf(event);
             $scope.events.splice(index ,1);
             if (!$scope.events.length) {
               $scope.message = "События в категории отсутствуют";
             }
-          })
-          .error(function(response) {
+          }, function(response) {
 
           });
       });
@@ -154,28 +148,19 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function() {
-        Events.editEvent(event)
-          .success(function(response) {
-
-            if (response.error) {
-              return;
-            }
-
-            //Modifying event's tags
-            event.tags.find(function(elem, index) {
-              if (elem._id === category._id) {
+        event.tags.find(function(elem, index) {
+            if (elem.slug === category.slug) {
                 event.tags.splice(index, 1);
                 return true;
-              }
-            });
-
+            }
+        });
+        Event.save(event, function(response) {
             //Deleting event from category in UI
             $scope.events.splice($scope.events.indexOf(event) ,1);
             if (!$scope.events.length) {
               $scope.message = "События в категории отсутствуют";
             }
-          })
-          .error(function(response) {
+          }, function(response) {
 
           });
       });
@@ -184,28 +169,17 @@ angular.module('itytApp').controller('EventsCtrl',
     //ToDO: make propper errors handling
     $scope.addEvent = function() {
       EventEditModal.show().then(function(event) {
-        Events.addEvent(event)
-          .success(function(response) {
-
-            //TODO: operate with a real response - not the input data, pay also attention to image's path handling
-            var isPersistenInCategory = false, data = event;
-            if (response.error) {
-              return;
-            }
-
-            //Todo: remove ID - whole data should come from the server
-            data._id = (new Date()).getTime();
-
-            isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
-              return +$scope.category._id === +elem._id;
+        Event.create(event, function(response) {
+            var isPersistedInCategory = false;
+            isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
+              return +$scope.category.slug === +elem.slug;
             });
             // If added event has preserved its category (as well as still holds no tags when has been uncategorized initially) - adding it
-            if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
-              $scope.events.push(data);
+            if ((!$scope.category.slug && !response.tags.length) || isPersistedInCategory) {
+              $scope.events.push(response);
             }
-
-          })
-          .error(function(response) {
+          },
+          function(response) {
 
           });
       });
@@ -215,30 +189,29 @@ angular.module('itytApp').controller('EventsCtrl',
     $scope.editEvent = function(event) {
       EventEditModal.show({
         resolve: {
-          event: function() {
-            return event;
+          event: function($q, Event) {
+            var deferred = $q.defer();
+            Event.get({slug:event.slug}, function(response){
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           },
           categories: function() {
             return CategoriesData;
           }
         }
       }).then(function(data) {
-        Events.editEvent(data)
-          .success(function(response) {
-            if (response.error) {
-              return;
-            }
-            //TODO: operate with a real response - not the input data, pay also attention to image's path handling
+        Event.save(data, function(response) {
             $scope.events.find(function(elem, index) {
-              var isPersistenInCategory = false;
-              if (+elem._id === +data._id) {
-                isPersistenInCategory = $scope.category._id && data.tags.find(function(elem) {
-                  return +$scope.category._id === +elem._id;
+              var isPersistedInCategory = false;
+              if (elem.slug === response.slug) {
+                isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
+                  return $scope.category.slug === elem.slug;
                 });
                 // If updated event has preserved its category (as well as still holds no tags when has been uncategorized initially) -
                 // persist it, otherwise deleting it from the current category's events list
-                if ((!$scope.category._id && !data.tags.length) || isPersistenInCategory) {
-                  $scope.events[index] = data;
+                if ((!$scope.category.slug && !response.tags.length) || isPersistedInCategory) {
+                  $scope.events[index] = response;
                 }
                 else {
                   $scope.events.splice(index, 1);
@@ -246,11 +219,9 @@ angular.module('itytApp').controller('EventsCtrl',
                     $scope.message = "В результате редактирования события в данной категории отсутствуют";
                   }
                 }
-                return;
               }
             });
-          })
-          .error(function(response) {
+          },function(response) {
 
           });
       });

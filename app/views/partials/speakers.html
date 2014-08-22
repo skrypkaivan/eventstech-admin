@@ -9,7 +9,7 @@
       <li bindonce ng-repeat="category in categories | orderCategoriesBy:'name'" active-navigation-class="active" segment="3" class="list-group-item">
         <button type="button" class="btn btn-danger btn-xs pull-right btn-circle" ng-show="category._id" ng-click="deleteCategory(category)" title="Удалить категорию"><span class="glyphicon glyphicon-remove"></span></button>
         <button type="button" class="btn btn-info btn-xs pull-right btn-circle" ng-show="category._id" ng-click="editCategory(category)" title="Редактировать категорию"><span class="glyphicon glyphicon-pencil"></span></button>
-        <div><a bo-href="'/speakers/tag/' + (category._id || 'uncategorised')" bo-text="category.name"></a></div>
+        <div><a bo-href="'/speakers/tag/' + (category.slug || 'uncategorised')" bo-text="category.name"></a></div>
         <div class="clearfix"></div>
       </li>
     </ul>

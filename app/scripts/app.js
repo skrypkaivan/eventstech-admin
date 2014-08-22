@@ -12,23 +12,35 @@ angular.module('itytApp', ['ngResource','ngRoute', 'pasvaz.bindonce', 'ui.bootst
         templateUrl: 'partials/events.html',
         controller: 'EventsCtrl',
         resolve: {
-          CategoriesData: function(EventCategory) {
-            return EventCategory.query();
+          CategoriesData: function($q, EventCategory) {
+            var deferred = $q.defer();
+            EventCategory.query({}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           },
           EventsData: function() {
             return [];
           }
         }
       })
-      .when('/events/tag/:categoryId', {
+      .when('/events/tag/:slug', {
         templateUrl: 'partials/events.html',
         controller: 'EventsCtrl',
         resolve: {
-          CategoriesData: function(EventCategory) {
-            return EventCategory.query();
+          CategoriesData: function($q, EventCategory) {
+            var deferred = $q.defer();
+            EventCategory.query({}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           },
-          EventsData: function($route, Events) {
-            return Events.getByCategory($route.current.params.categoryId);
+          EventsData: function($q, $route, Event) {
+            var deferred = $q.defer();
+            Event.getByCategory({tag:$route.current.params.slug}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           }
         }
       })
@@ -36,23 +48,35 @@ angular.module('itytApp', ['ngResource','ngRoute', 'pasvaz.bindonce', 'ui.bootst
         templateUrl: 'partials/speakers.html',
         controller: 'SpeakersCtrl',
         resolve: {
-          CategoriesData: function(SpeakerCategory) {
-            return SpeakerCategory.query();
+          CategoriesData: function($q, SpeakerCategory) {
+            var deferred = $q.defer();
+            SpeakerCategory.query({}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           },
           SpeakersData: function() {
             return [];
           }
         }
       })
-      .when('/speakers/tag/:categoryId', {
+      .when('/speakers/tag/:slug', {
         templateUrl: 'partials/speakers.html',
         controller: 'SpeakersCtrl',
         resolve: {
-          CategoriesData: function(SpeakerCategory) {
-            return SpeakerCategory.query();
+          CategoriesData: function($q, SpeakerCategory) {
+            var deferred = $q.defer();
+            SpeakerCategory.query({}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           },
-          SpeakersData: function($route, Speakers) {
-            return Speakers.getByCategory($route.current.params.categoryId);
+          SpeakersData: function($q, $route, Speaker) {
+            var deferred = $q.defer();
+            Speaker.getByCategory({tag:$route.current.params.slug}, function(response) {
+                deferred.resolve(response);
+            });
+            return deferred.promise;
           }
         }
       })

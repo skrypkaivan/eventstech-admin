@@ -37,7 +37,7 @@ angular.module('itytApp').directive('imageFileUpload', [function () {
         buttonText: 'Загрузить',
         buttonCursor: 'hand',
         fileTypeExts: '*.jpg; *.png; *.gif',
-        uploader: '/upload',
+        uploader: '/api/upload',
         multi: false,
         formData: {type: $scope.type},
         swf: 'bower_components/uploadify/uploadify.swf',
