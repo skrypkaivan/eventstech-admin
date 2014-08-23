@@ -127,7 +127,7 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function() {
-        Event.deleteEvent({slug:event._id}, function(response) {
+        Event.delete({slug:event._id}, function(res ponse) {
             var index = $scope.events.indexOf(event);
             $scope.events.splice(index ,1);
             if (!$scope.events.length) {
@@ -172,7 +172,7 @@ angular.module('itytApp').controller('EventsCtrl',
         Event.create(event, function(response) {
             var isPersistedInCategory = false;
             isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
-              return +$scope.category.slug === +elem.slug;
+              return $scope.category.slug === elem.slug;
             });
             // If added event has preserved its category (as well as still holds no tags when has been uncategorized initially) - adding it
             if ((!$scope.category.slug && !response.tags.length) || isPersistedInCategory) {
