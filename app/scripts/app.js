@@ -107,8 +107,8 @@ angular.module('itytApp', ['ngResource','ngRoute', 'pasvaz.bindonce', 'ui.bootst
         }
     };
 
-    $rootScope.$on('$stateChangeStart', function () {
-      console.log('$stateChangeStart');
+    $rootScope.$on('$routeChangeStart', function () {
+      console.log('$routeChangeStart');
       // if route requires auth and user is not logged in
         isAuthorizationRequired();
     });
