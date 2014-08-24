@@ -15,7 +15,11 @@ angular.module('itytApp').service('Constants', function() {
       eventsCategoryMaintainanceURL: 'api/events_tag',
       eventMaintainanceURL: 'events',
       eventCategorySearchURL: "api/events_tag/search?s=",
-      speakerCategorySearchURL: "api/speakers_tag/search?s="
+      speakerCategorySearchURL: "api/speakers_tag/search?s=",
+      speakerNameOrSlugSearchURL: "api/speaker/search/nameorslug?s="
+    },
+    common: {
+        uncategorisedCategory: "uncategorised"
     }
   };
 }).constant("AUTH_EVENTS", {

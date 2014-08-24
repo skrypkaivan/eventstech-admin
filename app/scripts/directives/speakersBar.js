@@ -6,7 +6,8 @@ angular.module('itytApp').directive('speakersBar', ['Speaker', function(Speaker)
     replace: 'true',
     restrict: 'E',
     scope: {
-      data: '='
+      data: '=',
+      url: '='
     },
     controller: function($scope, $element) {
 

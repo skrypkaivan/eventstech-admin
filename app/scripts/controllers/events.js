@@ -167,8 +167,15 @@ angular.module('itytApp').controller('EventsCtrl',
     };
 
     //ToDO: make propper errors handling
-    $scope.addEvent = function() {
-      EventEditModal.show().then(function(event) {
+    $scope.addEvent = function(currentCategory) {
+      EventEditModal.show({
+          resolve: {
+              event: EventEditModal.modalDefaults.resolve.event,
+              category: function() {
+                  return currentCategory;
+              }
+          }
+      }).then(function(event) {
         Event.create(event, function(response) {
             var isPersistedInCategory = false;
             isPersistedInCategory = $scope.category.slug && response.tags.find(function(elem) {
@@ -196,8 +203,8 @@ angular.module('itytApp').controller('EventsCtrl',
             });
             return deferred.promise;
           },
-          categories: function() {
-            return CategoriesData;
+          category: function() {
+              return {}
           }
         }
       }).then(function(data) {

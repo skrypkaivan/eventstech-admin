@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('itytApp').service('EventEditModal', ['$modal', 'EventCategory', function($modal, EventCategory) {
+angular.module('itytApp').service('EventEditModal', ['$modal', function($modal) {
 
   var startDate = new Date(),
-      endDate, modalDefaults;
+      endDate,
+      modalDefaults;
 
   startDate.setHours(10);
   startDate.setMinutes(0);
@@ -15,7 +16,6 @@ angular.module('itytApp').service('EventEditModal', ['$modal', 'EventCategory', 
     controller: "EventEditModalInstanceCtrl",
     size: "lg",
     windowClass: "modal-centered",
-    categories: [],
     resolve: {
       event: function() {
         return {
@@ -25,16 +25,13 @@ angular.module('itytApp').service('EventEditModal', ['$modal', 'EventCategory', 
           speakers: []
         };
       },
-      categories: function(EventCategory, $q) {
-        var deferred = $q.defer();
-        EventCategory.query({}, function(response) {
-            deferred.resolve(response);
-        });
-        return deferred.promise;
+      category: function() {
+        return {}
       }
     }
   };
 
+  this.modalDefaults = modalDefaults;
 
   this.show = function (customModalDefaults) {
     var modalOptions = {}, modal;
@@ -42,5 +39,4 @@ angular.module('itytApp').service('EventEditModal', ['$modal', 'EventCategory', 
     modal = $modal.open(modalOptions);
     return modal.result;
   };
-
 }]);

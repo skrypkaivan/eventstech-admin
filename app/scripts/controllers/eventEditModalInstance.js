@@ -1,29 +1,15 @@
 'use strict';
 
 angular.module('itytApp').controller('EventEditModalInstanceCtrl',
-  ['$scope', '$routeParams', '$modalInstance', 'event', 'categories','Constants', function ($scope, $routeParams, $modalInstance, event, categories, Constants) {
+  ['$scope', '$routeParams', '$modalInstance', 'event', 'category', 'Constants', function ($scope, $routeParams, $modalInstance, event, category, Constants) {
 
     //Dealing with copies of the models to restore them on cancel
     $scope.event = angular.copy(event);
-    $scope.categories = angular.copy(categories);
 
     //If event is new and only about to be added - automatically adding current category to tags list
-    if (!$scope.event.slug && $routeParams.slug !== 'uncategorised') {
-      $scope.categories.find(function(elem) {
-        if (elem.slug === $routeParams.slug) {
-          $scope.event.tags.push(elem);
-          return true;
-        }
-      });
+    if (!$scope.event.slug && $routeParams.slug !== Constants.common.uncategorisedCategory) {
+         $scope.event.tags.push(category);
     }
-
-    //For just in case searching and removing "Uncategorized" category
-    $scope.categories.find(function(elem, index) {
-      if (!elem.slug) {
-        $scope.categories.splice(index, 1);
-        return true;
-      }
-    });
 
     $scope.tinymceOptions = {
       menubar: "false",
@@ -63,5 +49,9 @@ angular.module('itytApp').controller('EventEditModalInstanceCtrl',
 
     $scope.tagsUrl = function() {
         return Constants.urls.eventCategorySearchURL;
+    };
+
+    $scope.speakersUrl = function() {
+        return Constants.urls.speakerNameOrSlugSearchURL;
     }
 }]);
