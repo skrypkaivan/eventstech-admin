@@ -13,7 +13,9 @@ angular.module('itytApp').service('Constants', function() {
       dataEventsUrl: 'api/event',
       dataEventsCategories: 'api/events_tag',
       eventsCategoryMaintainanceURL: 'api/events_tag',
-      eventMaintainanceURL: 'events'
+      eventMaintainanceURL: 'events',
+      eventCategorySearchURL: "api/events_tag/search?s=",
+      speakerCategorySearchURL: "api/speakers_tag/search?s="
     }
   };
 }).constant("AUTH_EVENTS", {

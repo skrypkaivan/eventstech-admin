@@ -127,7 +127,7 @@ angular.module('itytApp').controller('EventsCtrl',
           }
         }
       }).then(function() {
-        Event.delete({slug:event._id}, function(res ponse) {
+        Event.delete({slug:event._id}, function(response) {
             var index = $scope.events.indexOf(event);
             $scope.events.splice(index ,1);
             if (!$scope.events.length) {

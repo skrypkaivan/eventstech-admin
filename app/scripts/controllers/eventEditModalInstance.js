@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('itytApp').controller('EventEditModalInstanceCtrl',
-  ['$scope', '$routeParams', '$modalInstance', 'event', 'categories', function ($scope, $routeParams, $modalInstance, event, categories) {
+  ['$scope', '$routeParams', '$modalInstance', 'event', 'categories','Constants', function ($scope, $routeParams, $modalInstance, event, categories, Constants) {
 
     //Dealing with copies of the models to restore them on cancel
     $scope.event = angular.copy(event);
@@ -61,4 +61,7 @@ angular.module('itytApp').controller('EventEditModalInstanceCtrl',
       $modalInstance.dismiss();
     };
 
-  }]);
+    $scope.tagsUrl = function() {
+        return Constants.urls.eventCategorySearchURL;
+    }
+}]);

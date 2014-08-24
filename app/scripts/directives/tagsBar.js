@@ -7,7 +7,7 @@ angular.module('itytApp').directive('tagsBar', function () {
     restrict: 'E',
     scope: {
       data: '=',
-      fullcollection: '='
+      url: '='
     },
     controller: function($scope, $element) {
 
@@ -47,7 +47,7 @@ angular.module('itytApp').directive('tagsBar', function () {
 
     },
     link: function($scope, element) {
-      element.removeAttr('data').removeAttr('fullcollection');
+      element.removeAttr('data').removeAttr('url');
     }
   };
 });

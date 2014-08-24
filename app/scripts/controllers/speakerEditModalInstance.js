@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('itytApp').controller('SpeakerEditModalInstanceCtrl',
-  ['$scope', '$routeParams', '$modalInstance', 'speaker', 'categories', function ($scope, $routeParams, $modalInstance, speaker, categories) {
+  ['$scope', '$routeParams', '$modalInstance', 'speaker', 'categories','Constants', function ($scope, $routeParams, $modalInstance, speaker, categories, Constants) {
 
     //Dealing with copies of the models to restore them on cancel
     $scope.speaker = angular.copy(speaker);
@@ -52,4 +52,8 @@ angular.module('itytApp').controller('SpeakerEditModalInstanceCtrl',
     $scope.cancel = function () {
       $modalInstance.dismiss();
     };
+
+    $scope.tagsUrl = function() {
+      return Constants.urls.speakerCategorySearchURL;
+    }
 }]);
