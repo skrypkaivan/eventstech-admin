@@ -14,9 +14,9 @@ angular.module('itytApp').service('Constants', function() {
       dataEventsCategories: 'api/events_tag',
       eventsCategoryMaintainanceURL: 'api/events_tag',
       eventMaintainanceURL: 'events',
-      eventCategorySearchURL: "api/events_tag/search?s=",
-      speakerCategorySearchURL: "api/speakers_tag/search?s=",
-      speakerNameOrSlugSearchURL: "api/speaker/search/nameorslug?s="
+      eventCategorySearchURL: "api/events_tag/autocomplete?s=",
+      speakerCategorySearchURL: "api/speakers_tag/autocomplete?s=",
+      speakerNameOrSlugSearchURL: "api/speaker/autocomplete?s="
     },
     common: {
         uncategorisedCategory: "uncategorised"
